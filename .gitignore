@@ -1,0 +1,8 @@
+.idea/*
+.gradle
+build
+gradle
+
+*.class
+*.log
+tomcat-logs/*
