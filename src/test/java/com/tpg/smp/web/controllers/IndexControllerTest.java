@@ -49,7 +49,7 @@ public class IndexControllerTest {
                 .header("Accept-Language", "en_GB"));
 
         HandleIndexRequestExpectation expectation = new HandleIndexRequestExpectation(resultActions,
-                new HandleIndexRequestExpectation.WelcomeExpectedModelAttribute("Welcome To Warwick University"));
+                new HandleIndexRequestExpectation.WelcomeExpectedModelAttribute("Welcome To the University of Warwick"));
 
         expectation.met();
     }
