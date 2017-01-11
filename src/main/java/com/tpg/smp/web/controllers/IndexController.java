@@ -1,7 +1,7 @@
 package com.tpg.smp.web.controllers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
@@ -19,7 +19,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @Controller
 @RequestMapping("/smp")
 public class IndexController {
-    private static final Logger LOGGER = LogManager.getLogger(IndexController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
     private MessageSource messageSource;

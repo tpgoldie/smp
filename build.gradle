@@ -35,16 +35,19 @@ repositories {
 
 testSets {
     intTest { dirName = 'integration-tests' }
+    accTest { dirName = 'acceptance-tests' }
 }
 
 ext {
     springVersion = '4.3.5.RELEASE'
 
-    apacheLog4jVersion = '2.7'
+    springBootVersion = '1.4.3.RELEASE'
 
     jstlVersion = '1.2'
 
-    tomcatVersion = '9.0.0.M15'
+    tomcatVersion = '9.0.0.M1'
+
+    logbackVersion = '1.1.8'
 
     junitVersion = '4.12'
 
@@ -57,22 +60,27 @@ ext {
     assertjVersion = '1.0.0m1'
 }
 
+gretty {
+    springBoot = true
+    port=9091
+    contextPath='/smp'
+    loggingLevel="DEBUG"
+
+    servletContainer = 'tomcat8'
+}
+
 dependencies {
-    compile group: 'org.springframework', name: 'spring-webmvc', version: springVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
 
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: apacheLog4jVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: springBootVersion
 
-    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: apacheLog4jVersion
+    compile group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
 
     compile group: 'jstl', name: 'jstl', version: jstlVersion
 
-    compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: tomcatVersion
+    compile group: 'org.apache.tomcat', name: 'tomcat-catalina', version: tomcatVersion
 
-    testCompile group: 'junit', name: 'junit', version: junitVersion
-
-    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: hamcrestVersion
-
-    testCompile group: 'org.springframework', name: 'spring-test', version: springVersion
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
 
     testCompile group: 'org.assertj', name: 'assertj-core-java8', version: assertjVersion
 
@@ -88,7 +96,14 @@ check.dependsOn intTest
 intTest.dependsOn test
 intTest.mustRunAfter test
 
+accTest.dependsOn intTest
+accTest.mustRunAfter intTest
+
 project.intTest {
+    outputs.upToDateWhen { false }
+}
+
+project.accTest {
     outputs.upToDateWhen { false }
 }
 

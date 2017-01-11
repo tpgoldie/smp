@@ -18,9 +18,8 @@ public class ContentNegotiation {
     private ViewResolver jspViewResolver;
 
     @Bean
-    public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
+    public ViewResolver contentNegotiatingViewResolver() {
         ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
-        resolver.setContentNegotiationManager(manager);
 
         // Define all possible view resolvers
         List<ViewResolver> resolvers = new ArrayList<>();
