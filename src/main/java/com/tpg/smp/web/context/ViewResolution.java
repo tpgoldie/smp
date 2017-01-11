@@ -5,15 +5,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 @Configuration
 public class ViewResolution {
     @Bean
     public ViewResolver jspViewResolver() {
-//        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/WEB-INF/jsp/");
