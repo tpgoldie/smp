@@ -30,7 +30,6 @@ public class IndexControllerTest {
     @ComponentScan(basePackages = {"com.tpg.smp.web.context"})
     @Import(SmpWebConfig.class)
     static class IndexControllerTestConfig {
-
     }
 
     @Autowired
