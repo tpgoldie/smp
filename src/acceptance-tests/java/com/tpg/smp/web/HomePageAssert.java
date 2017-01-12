@@ -1,4 +1,4 @@
-package com.tpg.smp.web.pages;
+package com.tpg.smp.web;
 
 import org.assertj.core.api.AbstractAssert;
 

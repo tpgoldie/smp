@@ -49,7 +49,7 @@ public class SeleniumTestExecutionListener extends AbstractTestExecutionListener
         if (webDriver != null) {
             SeleniumTest annotation = findAnnotation(
                     testContext.getTestClass(), SeleniumTest.class);
-            webDriver.get(annotation.baseUrl());
+            webDriver.get(String.format("%s:%d/%s", annotation.baseUrl(), annotation.port(), annotation.uri()));
         }
     }
 
@@ -60,17 +60,17 @@ public class SeleniumTestExecutionListener extends AbstractTestExecutionListener
         }
     }
 
-    @Override
-    public void afterTestMethod(TestContext testContext) throws Exception {
-        if (testContext.getTestException() == null) {
-            return;
-        }
-
-        File screenshot = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
-        String testName = toLowerUnderscore(testContext.getTestClass().getSimpleName());
-        String methodName = toLowerUnderscore(testContext.getTestMethod().getName());
-
-        Files.copy(screenshot.toPath(),
-                Paths.get("screenshots", testName + "_" + methodName + "_" + screenshot.getName()));
-    }
+//    @Override
+//    public void afterTestMethod(TestContext testContext) throws Exception {
+//        if (testContext.getTestException() == null) {
+//            return;
+//        }
+//
+//        File screenshot = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
+//        String testName = toLowerUnderscore(testContext.getTestClass().getSimpleName());
+//        String methodName = toLowerUnderscore(testContext.getTestMethod().getName());
+//
+//        Files.copy(screenshot.toPath(),
+//                Paths.get("screenshots", testName + "_" + methodName + "_" + screenshot.getName()));
+//    }
 }

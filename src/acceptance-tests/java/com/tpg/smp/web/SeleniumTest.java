@@ -19,5 +19,9 @@ public @interface SeleniumTest {
 
     Class<? extends WebDriver> driver() default HtmlUnitDriver.class;
 
-    String baseUrl() default "http://localhost:${local.server.port}";
+    String baseUrl() default "http://localhost";
+
+    int port() default 8080;
+
+    String uri() default "";
 }

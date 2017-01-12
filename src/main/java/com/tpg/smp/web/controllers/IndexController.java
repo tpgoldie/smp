@@ -24,8 +24,13 @@ public class IndexController {
     @Autowired
     private MessageSource messageSource;
 
+    @RequestMapping(value = "/", consumes = MediaType.TEXT_HTML_VALUE, method = GET)
+    public String home(@RequestHeader("Accept-Language") Locale locale, Model model) {
+        return index(locale, model);
+    }
+
     @RequestMapping(value = "/index", consumes = MediaType.TEXT_HTML_VALUE, method = GET)
-    public String getIndex(@RequestHeader("Accept-Language") Locale locale, Model model) {
+    public String index(@RequestHeader("Accept-Language") Locale locale, Model model) {
         LOGGER.info("The client locale is {}.", locale);
 
         String msg = messageSource.getMessage(WELCOME_KEY, new Object[0], locale);

@@ -1,14 +1,17 @@
 buildscript {
+//    ext {
+//        springBootVersion = '1.4.3.RELEASE'
+//    }
+
     repositories {
         jcenter()
-
-        mavenLocal()
 
         mavenCentral()
     }
 
     dependencies {
         classpath 'org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:1.2.0'
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
 
@@ -21,6 +24,8 @@ plugins {
 
     id "org.akhikhl.gretty" version "1.4.0"
 }
+
+//apply plugin: 'org.springframework.boot'
 
 group 'com.tpg.smp'
 version '1.0-SNAPSHOT'
@@ -79,6 +84,8 @@ dependencies {
     compile group: 'jstl', name: 'jstl', version: jstlVersion
 
     compile group: 'org.apache.tomcat', name: 'tomcat-catalina', version: tomcatVersion
+
+    compile("org.apache.tomcat.embed:tomcat-embed-jasper")
 
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
 

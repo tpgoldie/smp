@@ -41,6 +41,18 @@ public class IndexControllerTest {
     }
 
     @Test
+    public void handleDefaultRequest_defaultRequest_homePageIsDisplayed() throws Exception {
+        ResultActions resultActions = mockMvc.perform(get("/smp/")
+                .header("Content-Type", MediaType.TEXT_HTML_VALUE)
+                .header("Accept-Language", "en_GB"));
+
+        HandleIndexRequestExpectation expectation = new HandleIndexRequestExpectation(resultActions,
+                new HandleIndexRequestExpectation.WelcomeExpectedModelAttribute("Welcome To the University of Warwick"));
+
+        expectation.met();
+    }
+
+    @Test
     public void handleIndexRequest_indexRequest_homePageIsDisplayed() throws Exception {
         ResultActions resultActions = mockMvc.perform(get("/smp/index")
                 .header("Content-Type", MediaType.TEXT_HTML_VALUE)

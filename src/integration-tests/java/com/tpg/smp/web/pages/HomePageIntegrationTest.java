@@ -37,7 +37,19 @@ public class HomePageIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    public void loadHomePage_homePageRequest_expectHomePageToBeLoaded() throws Exception {
+    public void handleDefaultHomeRequest_homePageRequest_expectHomePageToBeLoaded() throws Exception {
+        mockMvc.perform(get("/smp/")
+            .header("Content-Type", MediaType.TEXT_HTML_VALUE)
+            .header("Accept-Language", "en_GB"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(view().name("index"))
+            .andExpect(forwardedUrl("/WEB-INF/jsp/index.jsp"))
+            .andExpect(model().attribute("welcome",is("Welcome To the University of Warwick")));
+    }
+
+    @Test
+    public void handleHomePageRequest_homePageRequest_expectHomePageToBeLoaded() throws Exception {
         mockMvc.perform(get("/smp/index")
             .header("Content-Type", MediaType.TEXT_HTML_VALUE)
             .header("Accept-Language", "en_GB"))

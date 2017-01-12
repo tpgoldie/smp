@@ -2,10 +2,12 @@ package com.tpg.smp.web.context;
 
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -16,6 +18,7 @@ import javax.servlet.ServletRegistration;
 @SpringBootApplication
 public class SmpWebAppInitializer extends SpringBootServletInitializer {
     private static final String WEBAPP_NAME = "smp";
+
     private static final String DISPLAY_NAME = "Warwick University Portal";
 
     private static final String SERVLET_NAME = "smp";
@@ -32,7 +35,7 @@ public class SmpWebAppInitializer extends SpringBootServletInitializer {
     }
 
     private static SpringApplicationBuilder configureApplication(SpringApplicationBuilder builder) {
-        return builder.sources(SmpWebAppInitializer.class).bannerMode(Banner.Mode.OFF);
+        return builder.sources(SmpWebAppInitializer.class, SmpWebConfig.class).bannerMode(Banner.Mode.OFF);
     }
 
     @Override
@@ -45,7 +48,7 @@ public class SmpWebAppInitializer extends SpringBootServletInitializer {
         AnnotationConfigWebApplicationContext annotationConfigWebApplicationContext = theAnnotationWebContext();
         annotationConfigWebApplicationContext.register(SmpWebConfig.class);
 
-//        servletContext.addListener(new ContextLoaderListener(annotationConfigWebApplicationContext));
+        servletContext.addListener(new ContextLoaderListener(annotationConfigWebApplicationContext));
 
         ServletRegistration.Dynamic registration = servletContext.addServlet(SERVLET_NAME,
                 dispatcherServlet(annotationConfigWebApplicationContext));
