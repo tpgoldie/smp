@@ -19,7 +19,7 @@ public class HandleIndexRequestExpectation {
     public void met() throws Exception {
         statusIsOk();
         andViewNameIs("index");
-        andForwardedUrlIs("/WEB-INF/jsp/index.jsp");
+        andForwardedUrlIs("/WEB-INF/views/index.jsp");
         andModelAttribute(welcomeExpectedModelAttribute.getAttributeName())
                 .is(welcomeExpectedModelAttribute.getExpectedValue());
     }

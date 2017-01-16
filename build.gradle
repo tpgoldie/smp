@@ -81,11 +81,11 @@ dependencies {
 
     compile group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
 
-    compile group: 'jstl', name: 'jstl', version: jstlVersion
-
     compile group: 'org.apache.tomcat', name: 'tomcat-catalina', version: tomcatVersion
 
-    compile("org.apache.tomcat.embed:tomcat-embed-jasper")
+    provided group: 'javax.servlet.jsp.jstl', name: 'jstl', version: jstlVersion
+
+    provided group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: tomcatVersion
 
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
 

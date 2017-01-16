@@ -15,11 +15,12 @@ public class ViewResolution {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 
         viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/jsp/");
+        viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         viewResolver.setContentType(MediaType.TEXT_HTML_VALUE);
-        viewResolver.setViewNames(ViewConstants.INDEX_VIEW);
-        viewResolver.setExposeContextBeansAsAttributes(true);
+        viewResolver.setOrder(1);
+//        viewResolver.setViewNames(ViewConstants.INDEX_VIEW);
+//        viewResolver.setExposeContextBeansAsAttributes(true);
 
         return viewResolver;
     }

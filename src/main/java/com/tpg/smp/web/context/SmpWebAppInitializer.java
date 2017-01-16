@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfigura
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -35,7 +37,7 @@ public class SmpWebAppInitializer extends SpringBootServletInitializer {
     }
 
     private static SpringApplicationBuilder configureApplication(SpringApplicationBuilder builder) {
-        return builder.sources(SmpWebAppInitializer.class, SmpWebConfig.class).bannerMode(Banner.Mode.OFF);
+        return builder.sources(SmpWebAppInitializer.class).bannerMode(Banner.Mode.OFF);
     }
 
     @Override
@@ -45,10 +47,13 @@ public class SmpWebAppInitializer extends SpringBootServletInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationConfigWebApplicationContext annotationConfigWebApplicationContext = theAnnotationWebContext();
+        AnnotationConfigWebApplicationContext annotationConfigWebApplicationContext = new AnnotationConfigWebApplicationContext();
         annotationConfigWebApplicationContext.register(SmpWebConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(annotationConfigWebApplicationContext));
+
+        AnnotationConfigWebApplicationContext dispatcherServlet = theAnnotationWebContext();
+        dispatcherServlet.register(SmpWebConfig.class);
 
         ServletRegistration.Dynamic registration = servletContext.addServlet(SERVLET_NAME,
                 dispatcherServlet(annotationConfigWebApplicationContext));

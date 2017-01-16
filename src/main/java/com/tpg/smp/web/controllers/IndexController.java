@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
 import static com.tpg.smp.web.controllers.support.MessageKeyConstants.WELCOME_KEY;
@@ -25,17 +26,22 @@ public class IndexController {
     private MessageSource messageSource;
 
     @RequestMapping(value = "/", consumes = MediaType.TEXT_HTML_VALUE, method = GET)
-    public String home(@RequestHeader("Accept-Language") Locale locale, Model model) {
-        return index(locale, model);
+    public String home(@RequestHeader("Accept-Language") Locale locale, Model model, HttpServletResponse response) {
+        return handleHomeRequest(locale, model, response);
     }
 
     @RequestMapping(value = "/index", consumes = MediaType.TEXT_HTML_VALUE, method = GET)
-    public String index(@RequestHeader("Accept-Language") Locale locale, Model model) {
+    public String index(@RequestHeader("Accept-Language") Locale locale, Model model, HttpServletResponse response) {
+        return handleHomeRequest(locale, model, response);
+    }
+
+    private String handleHomeRequest(Locale locale, Model model, HttpServletResponse response) {
         LOGGER.info("The client locale is {}.", locale);
 
         String msg = messageSource.getMessage(WELCOME_KEY, new Object[0], locale);
         model.addAttribute(WELCOME_KEY, msg);
 
+        response.setContentType(MediaType.TEXT_HTML_VALUE);
         return INDEX_VIEW;
     }
 }
