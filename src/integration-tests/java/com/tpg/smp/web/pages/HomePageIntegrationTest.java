@@ -24,10 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SmpWebAppInitializer.class, webEnvironment = DEFINED_PORT)
+@SpringBootTest(classes = SmpWebAppInitializer.class, webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 @Profile("intTest")
-@TestPropertySource(properties = {"local.server.port=8099"})
 public class HomePageIntegrationTest {
     @Configuration
     static class Config {
@@ -38,29 +37,26 @@ public class HomePageIntegrationTest {
 
     @Test
     public void handleDefaultHomeRequest_homePageRequest_expectHomePageToBeLoaded() throws Exception {
-        mockMvc.perform(get("/smp/")
+        performRequest("/smp/");
+    }
+
+    private void performRequest(String requestUri) throws Exception {
+        String welcomeMsg = "Welcome To the University of Warwick";
+
+        mockMvc.perform(get(requestUri)
             .header("Content-Type", MediaType.TEXT_HTML_VALUE)
             .header("Accept-Language", "en_GB"))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(view().name("index"))
             .andExpect(forwardedUrl("/WEB-INF/views/index.jsp"))
-            .andExpect(model().attribute("welcome",is("Welcome To the University of Warwick")))
+            .andExpect(model().attribute("welcome", is(welcomeMsg)))
+            .andExpect(model().attribute("login", is("Please Login")))
             .andExpect(content().contentType(MediaType.TEXT_HTML_VALUE));
     }
 
     @Test
     public void handleHomePageRequest_homePageRequest_expectHomePageToBeLoaded() throws Exception {
-        String msg = "Welcome To the University of Warwick";
-
-        mockMvc.perform(get("/smp/index")
-            .header("Content-Type", MediaType.TEXT_HTML_VALUE)
-            .header("Accept-Language", "en_GB"))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(view().name("index"))
-            .andExpect(forwardedUrl("/WEB-INF/views/index.jsp"))
-            .andExpect(model().attribute("welcome",is(msg)))
-            .andExpect(content().contentType(MediaType.TEXT_HTML_VALUE));
+        performRequest("/smp/index");
     }
 }

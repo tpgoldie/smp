@@ -28,11 +28,6 @@ public class SmpWebConfig extends WebMvcConfigurerAdapter {
         configurer.defaultContentType(MediaType.TEXT_HTML);
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-    }
-
     @Bean
     @Order(1)
     public ServletRegistrationBean dispatcherServletRegistration(DispatcherServlet dispatcherServlet) {

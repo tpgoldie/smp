@@ -29,10 +29,6 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SmpWebAppInitializer.class, webEnvironment = RANDOM_PORT)
 @Profile("intTest")
-@PropertySources(value = {
-    @PropertySource("classpath:application-intTest.properties")
-})
-@DirtiesContext
 public class HomeViewIntegrationTest {
     @Configuration
     static class Config {
