@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import static java.util.Collections.emptyList;
 
-public abstract class AuthenticatedUser extends WebSiteUser implements UserDetails, UserAccountStatus {
+public abstract class AuthenticatedUser extends WebSiteUser {
     private final String username;
 
     private final String firstName;
@@ -60,6 +60,6 @@ public abstract class AuthenticatedUser extends WebSiteUser implements UserDetai
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
