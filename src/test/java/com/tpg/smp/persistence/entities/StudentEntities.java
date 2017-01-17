@@ -17,10 +17,5 @@ public class StudentEntities extends SmpEntities<StudentEntity> {
         return entity;
     }
 
-    private void setName(String firstName, String lastName, StudentEntity entity) {
-        Name name = new Name();
-        name.setFirstName(firstName);
-        name.setLastName(lastName);
-        entity.setName(name);
-    }
+    public StudentEntity ayanaGolding() { return getEntity(0); }
 }

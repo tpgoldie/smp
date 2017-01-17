@@ -13,4 +13,11 @@ abstract class SmpEntities<T> {
     List<T> entities = new ArrayList<>();
 
     public T getEntity(int index) { return entities.get(index); }
+
+    void setName(String firstName, String lastName, PersonEntity entity) {
+        Name name = new Name();
+        name.setFirstName(firstName);
+        name.setLastName(lastName);
+        entity.setName(name);
+    }
 }
