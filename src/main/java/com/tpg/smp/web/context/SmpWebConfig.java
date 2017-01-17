@@ -1,5 +1,6 @@
 package com.tpg.smp.web.context;
 
+import com.tpg.smp.web.controllers.SmpController;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

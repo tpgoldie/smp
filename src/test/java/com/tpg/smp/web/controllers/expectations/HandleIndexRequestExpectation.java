@@ -6,15 +6,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-public class HandleIndexRequestExpectation {
-    private final ResultActions resultActions;
+public class HandleIndexRequestExpectation extends RequestExpectation {
     private final WelcomeExpectedModelAttribute welcomeExpectedModelAttribute;
     private final LoginExpectedModelAttribute loginExpectedModelAttribute;
 
     public HandleIndexRequestExpectation(ResultActions resultActions,
                                          WelcomeExpectedModelAttribute welcomeExpectedModelAttribute,
                                          LoginExpectedModelAttribute loginExpectedModelAttribute) {
-        this.resultActions = resultActions;
+        super(resultActions);
         this.welcomeExpectedModelAttribute = welcomeExpectedModelAttribute;
         this.loginExpectedModelAttribute = loginExpectedModelAttribute;
     }
@@ -27,21 +26,6 @@ public class HandleIndexRequestExpectation {
                 .is(welcomeExpectedModelAttribute.getExpectedValue());
         andModelAttribute(loginExpectedModelAttribute.getAttributeName())
                 .is(loginExpectedModelAttribute.getExpectedValue());
-    }
-
-    private <T> ModelAttributeMatcher<T> andModelAttribute(String attributeName) {
-        return new ModelAttributeMatcher<>(resultActions, attributeName);
-    }
-    private void statusIsOk() throws Exception {
-        resultActions.andExpect(status().isOk());
-    }
-
-    private void andViewNameIs(String name) throws Exception {
-        resultActions.andExpect(view().name(name));
-    }
-
-    private void andForwardedUrlIs(String url) throws Exception {
-        resultActions.andExpect(forwardedUrl(url));
     }
 
     public static class WelcomeExpectedModelAttribute extends ExpectedModelAttribute<String> {

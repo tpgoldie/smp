@@ -20,24 +20,13 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@RunWith(SpringRunner.class)
 @WebMvcTest({IndexController.class})
 @Profile("unitTest")
-public class IndexControllerTest {
+public class IndexControllerTest extends BaseControllerTest {
     @Configuration
     @ComponentScan(basePackages = {"com.tpg.smp.web.context"})
     @Import(SmpWebConfig.class)
-    static class IndexControllerTestConfig {
-    }
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    private MockMvc mockMvc;
-
-    @Before
-    public void setUp() {
-        mockMvc = webAppContextSetup(webApplicationContext).build();
+    static class Config {
     }
 
     @Test
