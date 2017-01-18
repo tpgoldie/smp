@@ -4,16 +4,16 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
-class ModelAttributeMatcher<T> {
+class ModelAttributeErrorMatcher {
     private final ResultActions resultActions;
     private final String attributeName;
 
-    ModelAttributeMatcher(ResultActions resultActions, String attributeName) {
+    ModelAttributeErrorMatcher(ResultActions resultActions, String attributeName) {
         this.resultActions = resultActions;
         this.attributeName = attributeName;
     }
 
-    public void is(T value) throws Exception {
-        resultActions.andExpect(model().attribute(attributeName, org.hamcrest.Matchers.is(value)));
+    public void is(String value) throws Exception {
+        resultActions.andExpect(model().attributeHasFieldErrors(attributeName, value));
     }
 }

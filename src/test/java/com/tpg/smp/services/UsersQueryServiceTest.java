@@ -1,6 +1,7 @@
 package com.tpg.smp.services;
 
 import com.google.common.base.Optional;
+import com.tpg.smp.auth.AuthenticatedUser;
 import com.tpg.smp.data.*;
 import com.tpg.smp.domain.AdministrativeStaffMember;
 import com.tpg.smp.domain.Student;
@@ -167,7 +168,7 @@ public class UsersQueryServiceTest {
         when(usersQueryRepository.findByUsernameAndSecureToken(userModel.getUsername(), userModel.getSecureToken()))
             .thenReturn(absent());
 
-        Optional<UserDetails> actual = usersQueryService.findUserByUsernameAndPassword(userModel.getUsername(), userModel.getSecureToken());
+        Optional<AuthenticatedUser> actual = usersQueryService.findUserByUsernameAndPassword(userModel.getUsername(), userModel.getSecureToken());
 
         assertThat(actual, is(absent()));
 

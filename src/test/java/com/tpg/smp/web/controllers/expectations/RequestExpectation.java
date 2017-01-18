@@ -8,25 +8,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 abstract class RequestExpectation {
-    protected final ResultActions resultActions;
+    final ResultActions resultActions;
 
-    protected RequestExpectation(ResultActions resultActions) {
+    RequestExpectation(ResultActions resultActions) {
         this.resultActions = resultActions;
     }
 
-    protected void statusIsOk() throws Exception {
+    void statusIsOk() throws Exception {
         resultActions.andExpect(status().isOk());
     }
 
-    protected void andViewNameIs(String name) throws Exception {
+    void andViewNameIs(String name) throws Exception {
         resultActions.andExpect(view().name(name));
     }
 
-    protected void andForwardedUrlIs(String url) throws Exception {
+    void andForwardedUrlIs(String url) throws Exception {
         resultActions.andExpect(forwardedUrl(url));
     }
 
-    protected <T> ModelAttributeMatcher<T> andModelAttribute(String attributeName) {
+    <T> ModelAttributeMatcher<T> andModelAttribute(String attributeName) {
         return new ModelAttributeMatcher<>(resultActions, attributeName);
+    }
+
+    <T> SessionAttributeMatcher<T> andSessionAttribute(String attributeName) {
+        return new SessionAttributeMatcher<>(resultActions, attributeName);
+    }
+
+    ModelAttributeErrorMatcher andModelAttributeHasFieldError(String attributeName) {
+        return new ModelAttributeErrorMatcher(resultActions, attributeName);
     }
 }

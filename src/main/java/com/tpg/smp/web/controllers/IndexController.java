@@ -34,8 +34,10 @@ public class IndexController extends SmpController {
     private String handleHomeRequest(Locale locale, Model model, HttpServletResponse response) {
         LOGGER.info("The client locale is {}.", locale);
 
-        addMessage(locale, model, WELCOME_KEY);
-        addMessage(locale, model, LOGIN_KEY);
+        String[] noMsgParameters = new String[0];
+
+        addMessage(model, locale, WELCOME_KEY, noMsgParameters);
+        addMessage(model, locale, LOGIN_KEY, noMsgParameters);
 
         response.setContentType(TEXT_HTML_VALUE);
         return INDEX_VIEW;

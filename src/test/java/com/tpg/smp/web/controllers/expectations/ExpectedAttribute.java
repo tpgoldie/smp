@@ -1,11 +1,11 @@
 package com.tpg.smp.web.controllers.expectations;
 
-abstract class ExpectedModelAttribute<T> {
+abstract class ExpectedAttribute<T> {
     private final String attributeName;
 
     private final T expectedValue;
 
-    ExpectedModelAttribute(String attributeName, T expectedValue) {
+    ExpectedAttribute(String attributeName, T expectedValue) {
         this.attributeName = attributeName;
         this.expectedValue = expectedValue;
     }

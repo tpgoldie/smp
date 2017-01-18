@@ -1,6 +1,7 @@
 package com.tpg.smp.services;
 
 import com.google.common.base.Optional;
+import com.tpg.smp.auth.AuthenticatedUser;
 import com.tpg.smp.domain.Student;
 import com.tpg.smp.persistence.entities.AdministrativeStaffMemberEntity;
 import com.tpg.smp.persistence.entities.StudentEntity;
@@ -41,7 +42,7 @@ public class UsersQueryHandler implements UsersQueryService {
     }
 
     @Override
-    public Optional<UserDetails> findUserByUsernameAndPassword(String username, String secureToken) {
+    public Optional<AuthenticatedUser> findUserByUsernameAndPassword(String username, String secureToken) {
         Optional<UserEntity> userEntity = userQueryRepository.findByUsernameAndSecureToken(username, secureToken);
 
         if (!userEntity.isPresent()) { return absent(); }

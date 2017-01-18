@@ -2,17 +2,13 @@ package com.tpg.smp.web.controllers.expectations;
 
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 public class HandleIndexRequestExpectation extends RequestExpectation {
-    private final WelcomeExpectedModelAttribute welcomeExpectedModelAttribute;
-    private final LoginExpectedModelAttribute loginExpectedModelAttribute;
+    private final WelcomeExpectedAttribute welcomeExpectedModelAttribute;
+    private final LoginExpectedAttribute loginExpectedModelAttribute;
 
     public HandleIndexRequestExpectation(ResultActions resultActions,
-                                         WelcomeExpectedModelAttribute welcomeExpectedModelAttribute,
-                                         LoginExpectedModelAttribute loginExpectedModelAttribute) {
+                                         WelcomeExpectedAttribute welcomeExpectedModelAttribute,
+                                         LoginExpectedAttribute loginExpectedModelAttribute) {
         super(resultActions);
         this.welcomeExpectedModelAttribute = welcomeExpectedModelAttribute;
         this.loginExpectedModelAttribute = loginExpectedModelAttribute;
@@ -28,14 +24,14 @@ public class HandleIndexRequestExpectation extends RequestExpectation {
                 .is(loginExpectedModelAttribute.getExpectedValue());
     }
 
-    public static class WelcomeExpectedModelAttribute extends ExpectedModelAttribute<String> {
-        public WelcomeExpectedModelAttribute(String expectedValue) {
+    public static class WelcomeExpectedAttribute extends ExpectedAttribute<String> {
+        public WelcomeExpectedAttribute(String expectedValue) {
             super("welcome", expectedValue);
         }
     }
 
-    public static class LoginExpectedModelAttribute extends ExpectedModelAttribute<String> {
-        public LoginExpectedModelAttribute(String expectedValue) {
+    public static class LoginExpectedAttribute extends ExpectedAttribute<String> {
+        public LoginExpectedAttribute(String expectedValue) {
             super("login", expectedValue);
         }
     }

@@ -8,10 +8,10 @@ import java.util.Locale;
 
 public abstract class SmpController {
     @Autowired
-    protected MessageSource messageSource;
+    MessageSource messageSource;
 
-    protected void addMessage(Locale locale, Model model, String msgKey) {
-        String msg = messageSource.getMessage(msgKey, new Object[0], locale);
+    void addMessage(Model model, Locale locale, String msgKey, String[] objects) {
+        String msg = messageSource.getMessage(msgKey, objects, locale);
         model.addAttribute(msgKey, msg);
     }
 }

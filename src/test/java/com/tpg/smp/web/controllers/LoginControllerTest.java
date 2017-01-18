@@ -1,11 +1,11 @@
 package com.tpg.smp.web.controllers;
 
 import com.tpg.smp.auth.AuthenticationService;
-import com.tpg.smp.auth.AuthenticatedUsers;
 import com.tpg.smp.data.StudentData;
 import com.tpg.smp.data.StudentsData;
 import com.tpg.smp.domain.Student;
 import com.tpg.smp.web.context.SmpWebConfig;
+import com.tpg.smp.web.controllers.expectations.HandleInvalidLoginRequestExpectation;
 import com.tpg.smp.web.controllers.expectations.HandleLoginRequestExpectation;
 import com.tpg.smp.web.model.UserModel;
 import org.junit.Test;
@@ -16,6 +16,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
 import static java.util.Locale.UK;
 import static org.mockito.Mockito.verify;
@@ -56,31 +57,32 @@ public class LoginControllerTest extends BaseControllerTest {
         ResultActions resultsActions = new PerformLogin(mockMvc, userModel.getUsername(), userModel.getSecureToken()).resultActions();
 
         HandleLoginRequestExpectation expectation = new HandleLoginRequestExpectation(resultsActions,
-                new HandleLoginRequestExpectation.WelcomeExpectedModelAttribute(String.format("Welcome %s", authenticatedUser.getFirstName())));
+            new HandleLoginRequestExpectation.WelcomeExpectedAttribute(String.format("Welcome %s", authenticatedUser.getFirstName())),
+            new HandleLoginRequestExpectation.UserModelExpectedSessionAttribute(userModel));
 
         verify(authenticationService).authenticateUser(userModel);
 
         expectation.met();
     }
 
-//    @Test
-//    public void handleInvalidUser_invalidUser_invalidUserIsNotLoggedOn() throws Exception {
-//        UserModel userModel = new UserModel();
-//        userModel.setUsername("rubbish user");
-//        userModel.setSecureToken("top1234");
-//
-//        InvalidUser invalidUser = new InvalidUser(userModel.getUsername(), "is an invalid user");
-//
-//        when(authenticationService.authenticateUser(userModel)).thenReturn(of(invalidUser));
-//
-//        ResultActions resultsActions = new PerformLogin(mockMvc, userModel.getUsername(), userModel.getSecureToken()).resultActions();
-//
-//        HandleInvalidLoginRequestExpectation expectation = new HandleInvalidLoginRequestExpectation(resultsActions,
-//                new HandleInvalidLoginRequestExpectation.WelcomeExpectedModelAttribute("Welcome To the University of Warwick"),
-//                new HandleInvalidLoginRequestExpectation.LoginErrorExpectedModelAttribute("userModel", "login"));
-//
-//        verify(authenticationService).authenticateUser(userModel);
-//    }
+    @Test
+    public void handleInvalidUser_invalidUser_invalidUserIsNotLoggedOn() throws Exception {
+        UserModel userModel = new UserModel();
+        userModel.setUsername("rubbish user");
+        userModel.setSecureToken("top1234");
+
+        when(authenticationService.authenticateUser(userModel)).thenReturn(absent());
+
+        ResultActions resultsActions = new PerformLogin(mockMvc, userModel.getUsername(), userModel.getSecureToken()).resultActions();
+
+        HandleInvalidLoginRequestExpectation expectation = new HandleInvalidLoginRequestExpectation(resultsActions,
+                new HandleInvalidLoginRequestExpectation.WelcomeExpectedAttribute("Welcome To the University of Warwick"),
+                new HandleInvalidLoginRequestExpectation.LoginErrorExpectedAttribute("loginError", "Login failed. No match found."));
+
+        expectation.met();
+
+        verify(authenticationService).authenticateUser(userModel);
+    }
 
     static class PerformLogin {
         private final ResultActions resultActions;

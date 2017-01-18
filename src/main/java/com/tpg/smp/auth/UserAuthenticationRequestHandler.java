@@ -18,7 +18,7 @@ public class UserAuthenticationRequestHandler implements AuthenticationService {
     }
 
     @Override
-    public Optional<UserDetails> authenticateUser(UserModel userModel) {
+    public Optional<AuthenticatedUser> authenticateUser(UserModel userModel) {
         return usersQueryService.findUserByUsernameAndPassword(userModel.getUsername(), userModel.getSecureToken());
     }
 

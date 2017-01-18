@@ -1,14 +1,18 @@
 package com.tpg.smp.web.controllers.expectations;
 
+import com.tpg.smp.web.model.UserModel;
 import org.springframework.test.web.servlet.ResultActions;
 
 public class HandleLoginRequestExpectation extends RequestExpectation {
-    private final WelcomeExpectedModelAttribute welcomeExpectedModelAttribute;
+    private final WelcomeExpectedAttribute welcomeExpectedModelAttribute;
+    private final UserModelExpectedSessionAttribute userModelExpectedSessionAttribute;
 
-    public HandleLoginRequestExpectation(ResultActions resultActions, WelcomeExpectedModelAttribute welcomeExpectedModelAttribute) {
+    public HandleLoginRequestExpectation(ResultActions resultActions, WelcomeExpectedAttribute welcomeExpectedModelAttribute,
+                                         UserModelExpectedSessionAttribute userModelExpectedSessionAttribute) {
         super(resultActions);
 
         this.welcomeExpectedModelAttribute = welcomeExpectedModelAttribute;
+        this.userModelExpectedSessionAttribute = userModelExpectedSessionAttribute;
     }
 
     public void met() throws Exception {
@@ -17,11 +21,19 @@ public class HandleLoginRequestExpectation extends RequestExpectation {
         andForwardedUrlIs("/WEB-INF/views/index.jsp");
         andModelAttribute(welcomeExpectedModelAttribute.getAttributeName())
             .is(welcomeExpectedModelAttribute.getExpectedValue());
+        andSessionAttribute(userModelExpectedSessionAttribute.getAttributeName())
+            .is(userModelExpectedSessionAttribute.getExpectedValue());
     }
 
-    public static class WelcomeExpectedModelAttribute extends ExpectedModelAttribute<String> {
-        public WelcomeExpectedModelAttribute(String expectedValue) {
-            super("welcome.user", expectedValue);
+    public static class WelcomeExpectedAttribute extends ExpectedAttribute<String> {
+        public WelcomeExpectedAttribute(String expectedValue) {
+            super("welcome", expectedValue);
+        }
+    }
+
+    public static class UserModelExpectedSessionAttribute extends ExpectedAttribute<UserModel> {
+        public UserModelExpectedSessionAttribute(UserModel expectedValue) {
+            super("userModel", expectedValue);
         }
     }
 }
