@@ -2,14 +2,17 @@ package com.tpg.smp.services;
 
 import com.google.common.base.Optional;
 import com.tpg.smp.domain.Student;
+import com.tpg.smp.persistence.entities.AdministrativeStaffMemberEntity;
 import com.tpg.smp.persistence.entities.StudentEntity;
-import com.tpg.smp.persistence.entities.TeachingStaffMemberEntity;
+import com.tpg.smp.persistence.entities.AcademicStaffMemberEntity;
 import com.tpg.smp.persistence.entities.UserEntity;
+import com.tpg.smp.persistence.repositories.AdministrativeStaffMembersQueryRepository;
 import com.tpg.smp.persistence.repositories.StudentsQueryRepository;
-import com.tpg.smp.persistence.repositories.TeachingStaffMembersQueryRepository;
+import com.tpg.smp.persistence.repositories.AcademicStaffMembersQueryRepository;
 import com.tpg.smp.persistence.repositories.UsersQueryRepository;
+import com.tpg.smp.services.conversion.AdministrativeStaffMemberConverter;
 import com.tpg.smp.services.conversion.StudentConverter;
-import com.tpg.smp.services.conversion.TeachingStaffMemberConverter;
+import com.tpg.smp.services.conversion.AcademicStaffMemberConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -22,15 +25,19 @@ public class UsersQueryHandler implements UsersQueryService {
 
     private StudentsQueryRepository studentsQueryRepository;
 
-    private TeachingStaffMembersQueryRepository teachingStaffMembersQueryRepository;
+    private AcademicStaffMembersQueryRepository academicStaffMembersQueryRepository;
+
+    private AdministrativeStaffMembersQueryRepository administrativeStaffMembersQueryRepository;
 
     @Autowired
     public UsersQueryHandler(UsersQueryRepository userQueryRepository,
                              StudentsQueryRepository studentsQueryRepository,
-                             TeachingStaffMembersQueryRepository teachingStaffMembersQueryRepository) {
+                             AcademicStaffMembersQueryRepository academicStaffMembersQueryRepository,
+                             AdministrativeStaffMembersQueryRepository administrativeStaffMembersQueryRepository) {
         this.userQueryRepository = userQueryRepository;
         this.studentsQueryRepository = studentsQueryRepository;
-        this.teachingStaffMembersQueryRepository = teachingStaffMembersQueryRepository;
+        this.academicStaffMembersQueryRepository = academicStaffMembersQueryRepository;
+        this.administrativeStaffMembersQueryRepository = administrativeStaffMembersQueryRepository;
     }
 
     @Override
@@ -45,10 +52,16 @@ public class UsersQueryHandler implements UsersQueryService {
             return userEntity.transform(e -> new StudentConverter(e).convert(studentEntity.get()));
         }
 
-        Optional<TeachingStaffMemberEntity> teachingStaffMember = teachingStaffMembersQueryRepository.findById(userEntity.get().getPersonId());
+        Optional<AcademicStaffMemberEntity> academicStaffMember = academicStaffMembersQueryRepository.findById(userEntity.get().getPersonId());
 
-        if (teachingStaffMember.isPresent()) {
-            return userEntity.transform(e -> new TeachingStaffMemberConverter(e).convert(teachingStaffMember.get()));
+        if (academicStaffMember.isPresent()) {
+            return userEntity.transform(e -> new AcademicStaffMemberConverter(e).convert(academicStaffMember.get()));
+        }
+
+        Optional<AdministrativeStaffMemberEntity> adminStaffMember = administrativeStaffMembersQueryRepository.findById(userEntity.get().getPersonId());
+
+        if (adminStaffMember.isPresent()) {
+            return userEntity.transform(e -> new AdministrativeStaffMemberConverter(e).convert(adminStaffMember.get()));
         }
 
         return absent();

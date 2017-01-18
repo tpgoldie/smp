@@ -1,19 +1,22 @@
 package com.tpg.smp.web.model;
 
-import java.util.List;
+import com.tpg.smp.data.PasswordGenerator;
 
-import static java.util.Arrays.asList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserModels {
-    private List<UserModel> userModels = asList(
-        createUserModel("amgolding", "top1234"),
-        createUserModel("viwestwood", "t4p1534")
-    );
+    private List<UserModel> userModels;
+
+    public UserModels(List<String> userIds, PasswordGenerator passwordGenerator) {
+        userModels = userIds.stream().map(id -> createUserModel(id, passwordGenerator.getPasswordFor(id))).collect(Collectors.toList());
+    }
 
     private UserModel createUserModel(String username, String secureToken) {
         UserModel model = new UserModel();
         model.setUsername(username);
         model.setSecureToken(secureToken);
+
         return model;
     }
 
@@ -24,5 +27,7 @@ public class UserModels {
     public UserModel ayanaGolding() { return getUserModel(0); }
 
     public UserModel vienneWestwood() { return getUserModel(1); }
+
+    public UserModel rogerJohnson() { return getUserModel(2); }
 
 }

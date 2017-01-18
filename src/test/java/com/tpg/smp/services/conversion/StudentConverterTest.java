@@ -1,5 +1,7 @@
 package com.tpg.smp.services.conversion;
 
+import com.tpg.smp.data.StudentData;
+import com.tpg.smp.data.StudentsData;
 import com.tpg.smp.domain.Student;
 import com.tpg.smp.persistence.entities.StudentEntities;
 import com.tpg.smp.persistence.entities.StudentEntity;
@@ -15,25 +17,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 
-@RunWith(SpringRunner.class)
 public class StudentConverterTest {
-    private StudentConverter converter;
-
-    private final UserEntities userEntities = new UserEntities();
-
-    private final StudentEntities studentEntities = new StudentEntities();
-
-    @Before
-    public void setUp() {
-        UserEntity userEntity = userEntities.getEntity(0);
-        converter = new StudentConverter(userEntity);
-    }
+    private StudentData studentData = new StudentsData().getStudent(0);
 
     @Test
     public void convertEntityToDomainModel_entity_EntityIsConvertedToDomainModel() {
-        UserEntity userEntity = userEntities.getEntity(0);
+        UserEntity userEntity = studentData.getUserEntity();
 
-        StudentEntity studentEntity = studentEntities.getEntity(0);
+        StudentEntity studentEntity = studentData.getStudentEntity();
+
+        StudentConverter converter = new StudentConverter(userEntity);
 
         Student actual = converter.convert(studentEntity);
 

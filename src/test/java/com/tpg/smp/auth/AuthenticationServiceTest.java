@@ -1,8 +1,10 @@
 package com.tpg.smp.auth;
 
+import com.tpg.smp.data.StudentData;
+import com.tpg.smp.data.StudentsData;
 import com.tpg.smp.services.UsersQueryService;
 import com.tpg.smp.web.model.UserModel;
-import com.tpg.smp.web.model.UserModels;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +41,13 @@ public class AuthenticationServiceTest {
     @Autowired
     private AuthenticationService authenticationService;
 
-    private UserModels userModels = new UserModels();
-
-    private Users users = new Users();
+    private StudentData studentData = new StudentsData().getStudent(0);
 
     @Test
     public void handleValidUserLoginRequest_validUser_userIsAuthenticated() {
-        UserModel userModel = userModels.getUserModel(0);
+        UserModel userModel = studentData.getUserModel();
 
-        AuthenticatedUser authenticatedUser = users.getStudents().get(0);
+        AuthenticatedUser authenticatedUser = studentData.getAuthenticatedUser();
 
         when(usersQueryService.findUserByUsernameAndPassword(userModel.getUsername(), userModel.getSecureToken())).thenReturn(of(authenticatedUser));
 

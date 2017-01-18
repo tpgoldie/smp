@@ -1,21 +1,18 @@
 package com.tpg.smp.services;
 
 import com.google.common.base.Optional;
-import com.tpg.smp.data.StudentData;
-import com.tpg.smp.data.StudentsData;
-import com.tpg.smp.data.TeachingStaffMemberData;
-import com.tpg.smp.data.TeachingStaffMembersData;
+import com.tpg.smp.data.*;
+import com.tpg.smp.domain.AdministrativeStaffMember;
 import com.tpg.smp.domain.Student;
-import com.tpg.smp.domain.TeachingStaffMember;
+import com.tpg.smp.domain.AcademicStaffMember;
 import com.tpg.smp.persistence.entities.*;
+import com.tpg.smp.persistence.repositories.AdministrativeStaffMembersQueryRepository;
 import com.tpg.smp.persistence.repositories.StudentsQueryRepository;
-import com.tpg.smp.persistence.repositories.TeachingStaffMembersQueryRepository;
+import com.tpg.smp.persistence.repositories.AcademicStaffMembersQueryRepository;
 import com.tpg.smp.persistence.repositories.UsersQueryRepository;
 import com.tpg.smp.web.model.UserModel;
-import com.tpg.smp.web.model.UserModels;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +23,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.never;
@@ -44,10 +40,14 @@ public class UsersQueryServiceTest {
         private StudentsQueryRepository studentsQueryRepository;
 
         @MockBean
-        private TeachingStaffMembersQueryRepository teachingStaffMembersQueryRepository;
+        private AcademicStaffMembersQueryRepository academicStaffMembersQueryRepository;
+
+        @MockBean
+        private AdministrativeStaffMembersQueryRepository administrativeStaffMembersQueryRepository;
 
         @Bean
-        public UsersQueryService userQueryService() { return new UsersQueryHandler(usersQueryRepository, studentsQueryRepository, teachingStaffMembersQueryRepository); }
+        public UsersQueryService userQueryService() { return new UsersQueryHandler(usersQueryRepository, studentsQueryRepository,
+                academicStaffMembersQueryRepository, administrativeStaffMembersQueryRepository); }
     }
 
     @Autowired
@@ -60,18 +60,15 @@ public class UsersQueryServiceTest {
     private StudentsQueryRepository studentsQueryRepository;
 
     @Autowired
-    private TeachingStaffMembersQueryRepository teachingStaffMembersQueryRepository;
+    private AcademicStaffMembersQueryRepository academicStaffMembersQueryRepository;
 
+    @Autowired
+    private AdministrativeStaffMembersQueryRepository administrativeStaffMembersQueryRepository;
 
-    private UserModels userModels = new UserModels();
-
-    private UserEntities userEntities =  new UserEntities();
-
-    private StudentEntities studentEntities = new StudentEntities();
 
     @Test
     public void findStudentByUsernameAndPassword_userDetails_studentToBeFound() {
-        StudentData testStudent = new StudentsData().getTestStudent(0);
+        StudentData testStudent = new StudentsData().getStudent(0);
 
         UserModel userModel = testStudent.getUserModel();
         UserEntity userEntity = testStudent.getUserEntity();
@@ -92,15 +89,19 @@ public class UsersQueryServiceTest {
         verify(usersQueryRepository).findByUsernameAndSecureToken(userModel.getUsername(), userModel.getSecureToken());
 
         verify(studentsQueryRepository).findById(userEntity.getPersonId());
+
+        verify(academicStaffMembersQueryRepository, never()).findById(userEntity.getPersonId());
+
+        verify(administrativeStaffMembersQueryRepository, never()).findById(userEntity.getPersonId());
     }
 
     @Test
-    public void findTeachingStaffMemberByUsernameAndPassword_userDetails_staffMemberToBeFound() {
-        TeachingStaffMemberData testTeachingStaffMember = new TeachingStaffMembersData().getTestTeachingStaffMember(0);
+    public void findAcademicStaffMemberByUsernameAndPassword_userDetails_staffMemberToBeFound() {
+        AcademicStaffMemberData testTeachingStaffMember = new AcademicStaffMembersData().getAcademicStaffMember(0);
 
         UserModel userModel = testTeachingStaffMember.getUserModel();
         UserEntity userEntity = testTeachingStaffMember.getUserEntity();
-        TeachingStaffMemberEntity teachingStaffMemberEntity = testTeachingStaffMember.getTeachingStaffMemberEntity();
+        AcademicStaffMemberEntity academicStaffMemberEntity = testTeachingStaffMember.getAcademicStaffMemberEntity();
 
         when(usersQueryRepository.findByUsernameAndSecureToken(userModel.getUsername(), userModel.getSecureToken()))
             .thenReturn(of(userEntity));
@@ -108,18 +109,53 @@ public class UsersQueryServiceTest {
         when(studentsQueryRepository.findById(userEntity.getPersonId()))
             .thenReturn(absent());
 
-        when(teachingStaffMembersQueryRepository.findById(userEntity.getPersonId()))
-            .thenReturn(of(teachingStaffMemberEntity));
+        when(academicStaffMembersQueryRepository.findById(userEntity.getPersonId()))
+            .thenReturn(of(academicStaffMemberEntity));
 
-        TeachingStaffMember actual = (TeachingStaffMember) usersQueryService.findUserByUsernameAndPassword(userModel.getUsername(), userModel.getSecureToken()).get();
+        AcademicStaffMember actual = (AcademicStaffMember) usersQueryService.findUserByUsernameAndPassword(userModel.getUsername(), userModel.getSecureToken()).get();
 
-        new AssertTeachingStaffMember(actual).matches(userEntity, teachingStaffMemberEntity);
+        new AssertAcademicStaffMember(actual).matches(userEntity, academicStaffMemberEntity);
 
         verify(usersQueryRepository).findByUsernameAndSecureToken(userModel.getUsername(), userModel.getSecureToken());
 
         verify(studentsQueryRepository).findById(userEntity.getPersonId());
 
-        verify(teachingStaffMembersQueryRepository).findById(userEntity.getPersonId());
+        verify(academicStaffMembersQueryRepository).findById(userEntity.getPersonId());
+
+        verify(administrativeStaffMembersQueryRepository, never()).findById(userEntity.getPersonId());
+    }
+
+    @Test
+    public void findAdministrativeStaffMemberByUsernameAndPassword_userDetails_staffMemberToBeFound() {
+        AdministrativeStaffMemberData testAdministrativeStaffMember = new AdministrativeStaffMembersData().getAdministrativeStaffMember(0);
+
+        UserModel userModel = testAdministrativeStaffMember.getUserModel();
+        UserEntity userEntity = testAdministrativeStaffMember.getUserEntity();
+        AdministrativeStaffMemberEntity administrativeStaffMemberEntity = testAdministrativeStaffMember.getAdministrativeStaffMemberEntity();
+
+        when(usersQueryRepository.findByUsernameAndSecureToken(userModel.getUsername(), userModel.getSecureToken()))
+            .thenReturn(of(userEntity));
+
+        when(studentsQueryRepository.findById(userEntity.getPersonId()))
+            .thenReturn(absent());
+
+        when(academicStaffMembersQueryRepository.findById(userEntity.getPersonId()))
+            .thenReturn(absent());
+
+        when(administrativeStaffMembersQueryRepository.findById(userEntity.getPersonId()))
+            .thenReturn(of(administrativeStaffMemberEntity));
+
+        AdministrativeStaffMember actual = (AdministrativeStaffMember) usersQueryService.findUserByUsernameAndPassword(userModel.getUsername(), userModel.getSecureToken()).get();
+
+        new AssertAdministrativeStaffMember(actual).matches(userEntity, administrativeStaffMemberEntity);
+
+        verify(usersQueryRepository).findByUsernameAndSecureToken(userModel.getUsername(), userModel.getSecureToken());
+
+        verify(studentsQueryRepository).findById(userEntity.getPersonId());
+
+        verify(academicStaffMembersQueryRepository).findById(userEntity.getPersonId());
+
+        verify(administrativeStaffMembersQueryRepository).findById(userEntity.getPersonId());
     }
 
     @Test
@@ -139,6 +175,8 @@ public class UsersQueryServiceTest {
 
         verify(studentsQueryRepository, never()).findById(anyLong());
 
-        verify(teachingStaffMembersQueryRepository, never()).findById(anyLong());
+        verify(academicStaffMembersQueryRepository, never()).findById(anyLong());
+
+        verify(administrativeStaffMembersQueryRepository, never()).findById(anyLong());
     }
 }

@@ -1,11 +1,11 @@
 package com.tpg.smp.persistence.entities;
 
-public enum TeachingStaffMemberType {
+public enum AcademicStaffMemberType {
     PostGraduate("Post Graduate"), Lecturer("Lecturer"), SeniorLecturer("Senior Lecturer"), AffiliateLecturer("Affiliate Lecturer");
 
     private final String description;
 
-    TeachingStaffMemberType(String description) {
+    AcademicStaffMemberType(String description) {
         this.description = description;
     }
 

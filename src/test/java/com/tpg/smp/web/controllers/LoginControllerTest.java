@@ -1,8 +1,9 @@
 package com.tpg.smp.web.controllers;
 
 import com.tpg.smp.auth.AuthenticationService;
-import com.tpg.smp.auth.InvalidUser;
-import com.tpg.smp.auth.Users;
+import com.tpg.smp.auth.AuthenticatedUsers;
+import com.tpg.smp.data.StudentData;
+import com.tpg.smp.data.StudentsData;
 import com.tpg.smp.domain.Student;
 import com.tpg.smp.web.context.SmpWebConfig;
 import com.tpg.smp.web.controllers.expectations.HandleLoginRequestExpectation;
@@ -42,15 +43,13 @@ public class LoginControllerTest extends BaseControllerTest {
     @Autowired
     private AuthenticationService authenticationService;
 
-    private Users users = new Users();
+    private StudentData studentData = new StudentsData().getStudent(0);
 
     @Test
     public void loginAuthenticatedUser_validAuthenticatedUser_validUserIsLoggedIn() throws Exception {
-        Student authenticatedUser = (Student) users.getStudents().get(0);
+        Student authenticatedUser = (Student) studentData.getAuthenticatedUser();
 
-        UserModel userModel = new UserModel();
-        userModel.setUsername(authenticatedUser.getUsername());
-        userModel.setSecureToken("top1234");
+        UserModel userModel = studentData.getUserModel();
 
         when(authenticationService.authenticateUser(userModel)).thenReturn(of(authenticatedUser));
 

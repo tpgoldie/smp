@@ -6,8 +6,9 @@ public class StudentsData extends UsersData {
     private StudentEntities studentEntities = new StudentEntities();
 
     public StudentsData() {
-        userDataList.add(new StudentData(userEntities.ayanaGolding(), studentEntities.ayanaGolding(), userModels.ayanaGolding()));
+        add(new StudentData(authenticatedUsers.ayanaGolding(), userEntities.ayanaGolding(),
+            studentEntities.ayanaGolding(), userModels.ayanaGolding()));
     }
 
-    public StudentData getTestStudent(int index) { return (StudentData) userDataList.get(index); }
+    public StudentData getStudent(int index) { return (StudentData) userDataList.get(index); }
 }
