@@ -10,5 +10,5 @@ public class AdministrativeStaffMembersData extends UsersData {
             administrativeStaffMemberEntities.rogerJohnson(), userModels.rogerJohnson()));
     }
 
-    public AdministrativeStaffMemberData getAdministrativeStaffMember(int index) { return (AdministrativeStaffMemberData) userDataList.get(0); }
+    public AdministrativeStaffMemberData getAdministrativeStaffMember(int index) { return (AdministrativeStaffMemberData) userDataList.get(index); }
 }

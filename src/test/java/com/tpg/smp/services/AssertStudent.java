@@ -16,6 +16,6 @@ public class AssertStudent extends AssertPerson {
     public void matches(UserEntity userEntity, StudentEntity studentEntity) {
         super.matches(userEntity, studentEntity);
 
-        assertThat(actual, hasProperty("studentNumber", is(studentEntity.getStudentNumber())));
+        assertThat(actual, hasProperty("registrationNumber", is(studentEntity.getStudentNumber())));
     }
 }

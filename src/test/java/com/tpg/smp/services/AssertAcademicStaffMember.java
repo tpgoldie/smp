@@ -16,6 +16,7 @@ public class AssertAcademicStaffMember extends AssertPerson {
     public void matches(UserEntity userEntity, AcademicStaffMemberEntity academicStaffMemberEntity) {
         super.matches(userEntity, academicStaffMemberEntity);
 
+        assertThat(actual, hasProperty("registrationNumber", is(academicStaffMemberEntity.getStaffMemberNumber())));
         assertThat(actual, hasProperty("academicStaffMemberType", is(academicStaffMemberEntity.getAcademicStaffMemberType())));
     }
 }

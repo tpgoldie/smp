@@ -1,21 +1,21 @@
 package com.tpg.smp.persistence.entities;
 
-public class StudentEntities extends SmpEntities<StudentEntity> {
+public class StudentEntities extends PersonEntities<StudentEntity> {
     public StudentEntities() {
-        entities.add(createEntity("Ayana", "Golding", RANDOM_STRING_GENERATOR.generateRandomString()));
+        entities.add(createEntity("Michael", "Danque", "midanque"));
     }
 
-    private StudentEntity createEntity(String firstName, String lastName, String uuid) {
+    private StudentEntity createEntity(String firstName, String lastName, String studentName) {
         StudentEntity entity = new StudentEntity();
 
         entity.setId(COUNTER++);
 
         setName(firstName, lastName, entity);
 
-        entity.setStudentNumber(uuid);
+        entity.setStudentNumber(studentName);
 
         return entity;
     }
 
-    public StudentEntity ayanaGolding() { return getEntity(0); }
+    public StudentEntity michaelDanque() { return findByUserId("midanque"); }
 }

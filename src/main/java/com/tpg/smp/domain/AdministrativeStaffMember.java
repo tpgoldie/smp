@@ -5,8 +5,9 @@ import com.tpg.smp.persistence.entities.AdministrativeStaffMemberType;
 public class AdministrativeStaffMember extends Person {
     private AdministrativeStaffMemberType administrativeStaffMemberType;
 
-    public AdministrativeStaffMember(String username, String firstName, String lastName, AdministrativeStaffMemberType administrativeStaffMemberType) {
-        super(username, firstName, lastName);
+    public AdministrativeStaffMember(Name name, String username, String registrationNumber,
+                                     AdministrativeStaffMemberType administrativeStaffMemberType) {
+        super(name, username, registrationNumber);
 
         this.administrativeStaffMemberType = administrativeStaffMemberType;
     }

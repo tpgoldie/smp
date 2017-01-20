@@ -3,10 +3,7 @@ package com.tpg.smp.services.context;
 import com.tpg.smp.auth.AuthenticationService;
 import com.tpg.smp.auth.UserAuthenticationRequestHandler;
 import com.tpg.smp.persistence.context.PersistenceConfig;
-import com.tpg.smp.persistence.repositories.AdministrativeStaffMembersQueryRepository;
-import com.tpg.smp.persistence.repositories.StudentsQueryRepository;
-import com.tpg.smp.persistence.repositories.AcademicStaffMembersQueryRepository;
-import com.tpg.smp.persistence.repositories.UsersQueryRepository;
+import com.tpg.smp.persistence.repositories.*;
 import com.tpg.smp.services.UsersQueryHandler;
 import com.tpg.smp.services.UsersQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +26,14 @@ public class ServicesConfig {
     @Autowired
     private AdministrativeStaffMembersQueryRepository administrativeStaffMembersQueryRepository;
 
+    @Autowired
+    private AlumniMembersQueryRepository alumniMembersQueryRepository;
+
     @Bean
     public UsersQueryService usersQueryService() {
         return new UsersQueryHandler(usersQueryRepository, studentsQueryRepository,
-            academicStaffMembersQueryRepository, administrativeStaffMembersQueryRepository);
+            academicStaffMembersQueryRepository, administrativeStaffMembersQueryRepository,
+            alumniMembersQueryRepository);
     }
 
     @Bean

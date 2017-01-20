@@ -9,6 +9,15 @@ public class AdministrativeStaffMemberEntity extends PersonEntity {
     @Enumerated(EnumType.STRING)
     private AdministrativeStaffMemberType administrativeStaffMemberType;
 
+    @AttributeOverride(name = "uniqueNumber", column = @Column(name = "STAFF_MEMBER_NUMBER"))
+    public String getStaffMemberNumber() {
+        return getUniqueRegistrationNumber();
+    }
+
+    public void setStaffMemberNumber(String staffMemberId) {
+        setUniqueRegistrationNumber(staffMemberId);
+    }
+
     public AdministrativeStaffMemberType getAdministrativeStaffMemberType() {
         return administrativeStaffMemberType;
     }

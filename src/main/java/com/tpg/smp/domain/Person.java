@@ -4,7 +4,15 @@ package com.tpg.smp.domain;
 import com.tpg.smp.auth.AuthenticatedUser;
 
 public abstract class Person extends AuthenticatedUser {
-    public Person(String username, String firstName, String lastName) {
-        super(username, firstName, lastName);
+    private String registrationNumber;
+
+    public Person(Name name, String username, String registrationNumber) {
+        super(name, username);
+
+        this.registrationNumber = registrationNumber;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 }

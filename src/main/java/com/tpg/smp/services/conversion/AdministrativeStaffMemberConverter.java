@@ -1,6 +1,7 @@
 package com.tpg.smp.services.conversion;
 
 import com.tpg.smp.domain.AdministrativeStaffMember;
+import com.tpg.smp.domain.Name;
 import com.tpg.smp.persistence.entities.AdministrativeStaffMemberEntity;
 import com.tpg.smp.persistence.entities.UserEntity;
 
@@ -11,7 +12,7 @@ public class AdministrativeStaffMemberConverter extends PersonConverter<Administ
 
     @Override
     public AdministrativeStaffMember convert(AdministrativeStaffMemberEntity source) {
-        return new AdministrativeStaffMember(userEntity.getUsername(), source.getName().getFirstName(),
-            source.getName().getLastName(), source.getAdministrativeStaffMemberType());
+        return new AdministrativeStaffMember(new Name(source.getName().getFirstName(), source.getName().getLastName()),
+            userEntity.getUsername(), source.getStaffMemberNumber(), source.getAdministrativeStaffMemberType());
     }
 }

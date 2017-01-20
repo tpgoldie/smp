@@ -2,9 +2,7 @@ package com.tpg.smp.auth;
 
 import com.google.common.base.Optional;
 import com.tpg.smp.data.PasswordGenerator;
-import com.tpg.smp.domain.AcademicStaffMember;
-import com.tpg.smp.domain.AdministrativeStaffMember;
-import com.tpg.smp.domain.Student;
+import com.tpg.smp.domain.*;
 import com.tpg.smp.persistence.entities.AcademicStaffMemberType;
 import com.tpg.smp.persistence.entities.AdministrativeStaffMemberType;
 import com.tpg.smp.util.RandomStringGenerator;
@@ -26,24 +24,29 @@ public class AuthenticatedUsers {
 
     public AuthenticatedUsers() {
         authenticatedUsers = asList(
-                createAdministrativeStaffMember("rojohnson", "Roger", "Johnson", Registrar),
-                createAcademicStaffMember("viwestwood", "Vienne", "Westwood", AffiliateLecturer),
-                createStudent("amgolding", "Ayana", "Golding", randomStringGenerator.generateRandomString())
+                createAdministrativeStaffMember("rojohnson", "Roger", "Johnson", randomStringGenerator.generateRandomString(), Registrar),
+                createAcademicStaffMember("viwestwood", "Vienne", "Westwood", randomStringGenerator.generateRandomString(), AffiliateLecturer),
+                createStudent("midanque", "Micheal", "Danque", randomStringGenerator.generateRandomString()),
+                createAlumniMember("tpgolding", "Tony", "Golding", randomStringGenerator.generateRandomString())
         );
     }
 
-    private AuthenticatedUser createAcademicStaffMember(String username, String firstName, String lastName,
+    private AuthenticatedUser createAcademicStaffMember(String username, String firstName, String lastName, String staffMemberNumber,
                                                         AcademicStaffMemberType academicStaffMemberType) {
-        return new AcademicStaffMember(username, firstName, lastName, academicStaffMemberType);
+        return new AcademicStaffMember(new Name(firstName, lastName), username, staffMemberNumber, academicStaffMemberType);
     }
 
-    private AuthenticatedUser createAdministrativeStaffMember(String username, String firstName, String lastName,
+    private AuthenticatedUser createAdministrativeStaffMember(String username, String firstName, String lastName, String staffMemberNumber,
                                                               AdministrativeStaffMemberType administrativeStaffMemberType) {
-        return new AdministrativeStaffMember(username, firstName, lastName, administrativeStaffMemberType);
+        return new AdministrativeStaffMember(new Name(firstName, lastName), username, staffMemberNumber, administrativeStaffMemberType);
     }
 
     private AuthenticatedUser createStudent(String username, String firstName, String lastName, String studentNumber) {
-        return new Student(username, firstName, lastName, studentNumber);
+        return new Student(new Name(firstName, lastName), username, studentNumber);
+    }
+
+    private AuthenticatedUser createAlumniMember(String username, String firstName, String lastName, String alumniMemberNumber) {
+        return new AlumniMember(new Name(firstName, lastName), username, alumniMemberNumber);
     }
 
     public Optional<AuthenticatedUser> findAuthenticatedUserById(String id) {
@@ -54,9 +57,19 @@ public class AuthenticatedUsers {
         return (found.size() > 0) ? of(found.get(0)) : absent();
     }
 
-    public AuthenticatedUser rogerJohnson() { return authenticatedUsers.get(0); }
+    private AuthenticatedUser findById(String id) {
+        java.util.Optional<AuthenticatedUser> found = authenticatedUsers.stream().filter(au -> au.getUsername().equalsIgnoreCase(id)).findAny();
 
-    public AuthenticatedUser vienneWestwood() { return authenticatedUsers.get(1); }
+        if (found.isPresent()) { return found.get(); }
 
-    public AuthenticatedUser ayanaGolding() { return authenticatedUsers.get(2); }
+        throw new RuntimeException(String.format("Authenticated user %s not found", id));
+    }
+
+    public AuthenticatedUser rogerJohnson() { return findById("rojohnson"); }
+
+    public AuthenticatedUser vienneWestwood() { return findById("viwestwood"); }
+
+    public AuthenticatedUser michaelDanque() { return findById("midanque"); }
+
+    public AuthenticatedUser tonyGolding() { return findById("tpgolding"); }
 }

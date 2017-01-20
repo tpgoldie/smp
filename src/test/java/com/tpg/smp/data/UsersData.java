@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 public class UsersData {
     private static final PasswordGenerator PASSWORD_GENERATOR = new PasswordGenerator();
 
-    private static final List<String> USER_IDS = asList("amgolding", "viwestwood", "rojohnson");
+    private static final List<String> USER_IDS = asList("midanque", "viwestwood", "rojohnson", "tpgolding");
 
     final AuthenticatedUsers authenticatedUsers = new AuthenticatedUsers();
 

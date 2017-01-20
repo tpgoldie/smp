@@ -3,6 +3,7 @@ package com.tpg.smp.persistence.entities;
 import com.tpg.smp.data.PasswordGenerator;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -22,9 +23,19 @@ public class UserEntities extends SmpEntities<UserEntity> {
         return entity;
     }
 
-    public UserEntity ayanaGolding() { return getEntity(0); }
+    UserEntity findByUserId(String id) {
+        Optional<UserEntity> found = entities.stream().filter(e -> e.getUsername().equalsIgnoreCase(id)).findAny();
 
-    public UserEntity vienneWestwood() { return getEntity(1); }
+        if (found.isPresent()) { return found.get(); }
 
-    public UserEntity rogerJohnson() { return getEntity(2); }
+        throw new RuntimeException(String.format("Entity %s not found", id));
+    }
+
+    public UserEntity michaelDanque() { return findByUserId("midanque"); }
+
+    public UserEntity vienneWestwood() { return findByUserId("viwestwood"); }
+
+    public UserEntity rogerJohnson() { return findByUserId("rojohnson"); }
+
+    public UserEntity tonyGolding() { return findByUserId("tpgolding"); }
 }

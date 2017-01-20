@@ -9,6 +9,15 @@ public class AcademicStaffMemberEntity extends PersonEntity {
     @Enumerated(EnumType.STRING)
     private AcademicStaffMemberType academicStaffMemberType;
 
+    @AttributeOverride(name = "uniqueId", column = @Column(name = "STAFF_MEMBER_NUMBER"))
+    public String getStaffMemberNumber() {
+        return getUniqueRegistrationNumber();
+    }
+
+    public void setStaffMemberNumber(String staffMemberId) {
+        setUniqueRegistrationNumber(staffMemberId);
+    }
+
     public AcademicStaffMemberType getAcademicStaffMemberType() {
         return academicStaffMemberType;
     }

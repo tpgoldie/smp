@@ -1,4 +1,4 @@
-package com.tpg.smp.persistence.entities;
+package com.tpg.smp.persistence.entities.embeddables;
 
 import javax.persistence.Embeddable;
 

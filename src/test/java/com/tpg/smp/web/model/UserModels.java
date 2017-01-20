@@ -20,14 +20,20 @@ public class UserModels {
         return model;
     }
 
-    public UserModel getUserModel(int index) {
-        return userModels.get(index);
+    private UserModel findByUserId(String id) {
+        java.util.Optional<UserModel> found = userModels.stream().filter(um -> um.getUsername().equalsIgnoreCase(id)).findAny();
+
+        if (!found.isPresent()) { throw new RuntimeException(String.format("User model %s not found", id)); }
+
+        return found.get();
     }
 
-    public UserModel ayanaGolding() { return getUserModel(0); }
+    public UserModel michaelDanque() { return findByUserId("midanque"); }
 
-    public UserModel vienneWestwood() { return getUserModel(1); }
+    public UserModel vienneWestwood() { return findByUserId("viwestwood"); }
 
-    public UserModel rogerJohnson() { return getUserModel(2); }
+    public UserModel rogerJohnson() { return findByUserId("rojohnson"); }
+
+    public UserModel tonyGolding() { return findByUserId("tpgolding"); }
 
 }

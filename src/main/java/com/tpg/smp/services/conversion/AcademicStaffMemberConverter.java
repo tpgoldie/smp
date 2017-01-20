@@ -1,6 +1,7 @@
 package com.tpg.smp.services.conversion;
 
 import com.tpg.smp.domain.AcademicStaffMember;
+import com.tpg.smp.domain.Name;
 import com.tpg.smp.persistence.entities.AcademicStaffMemberEntity;
 import com.tpg.smp.persistence.entities.UserEntity;
 
@@ -11,7 +12,7 @@ public class AcademicStaffMemberConverter extends PersonConverter<AcademicStaffM
 
     @Override
     public AcademicStaffMember convert(AcademicStaffMemberEntity source) {
-        return new AcademicStaffMember(userEntity.getUsername(), source.getName().getFirstName(),
-            source.getName().getLastName(), source.getAcademicStaffMemberType());
+        return new AcademicStaffMember(new Name(source.getName().getFirstName(), source.getName().getLastName()),
+            userEntity.getUsername(), source.getStaffMemberNumber(), source.getAcademicStaffMemberType());
     }
 }

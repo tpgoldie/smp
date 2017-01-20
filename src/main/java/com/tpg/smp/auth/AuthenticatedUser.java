@@ -1,5 +1,6 @@
 package com.tpg.smp.auth;
 
+import com.tpg.smp.domain.Name;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,22 +11,19 @@ import static java.util.Collections.emptyList;
 public abstract class AuthenticatedUser extends WebSiteUser {
     private final String username;
 
-    private final String firstName;
+    private final Name name;
 
-    private final String lastName;
-
-    public AuthenticatedUser(String username, String firstName, String lastName) {
+    public AuthenticatedUser(Name name, String username) {
         this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
     }
 
     public String getFirstName() {
-        return firstName;
+        return name.getFirstName();
     }
 
     public String getLastName() {
-        return lastName;
+        return name.getLastName();
     }
 
     @Override
