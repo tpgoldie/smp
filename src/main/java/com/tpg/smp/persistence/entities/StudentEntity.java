@@ -1,19 +1,16 @@
 package com.tpg.smp.persistence.entities;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity(name = "student")
-@Table(name = "STUDENT", schema = "SMP")
+@Table(name = "T_STUDENTS", schema = "SMP")
 public class StudentEntity extends PersonEntity {
-    @AttributeOverride(name = "uniqueId", column = @Column(name = "STUDENT_NUMBER"))
+    @AttributeOverride(name = "uniqueRegistrationNumber", column = @Column(name = "STUDENT_NUMBER"))
     public String getStudentNumber() {
-        return getUniqueRegistrationNumber();
+        return getIdentificationNumber();
     }
 
     public void setStudentNumber(String studentNumber) {
-        setUniqueRegistrationNumber(studentNumber);
+        setIdentificationNumber(studentNumber);
     }
 }

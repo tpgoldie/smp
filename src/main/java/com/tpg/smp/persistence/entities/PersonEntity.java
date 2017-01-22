@@ -2,32 +2,27 @@ package com.tpg.smp.persistence.entities;
 
 import com.tpg.smp.persistence.entities.embeddables.Name;
 
-import javax.persistence.Embedded;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
-@MappedSuperclass
-public abstract class PersonEntity {
-    private Long id;
-
+@Entity(name = "person")
+@Table(name = "T_PERSONS", schema = "SMP")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class PersonEntity extends BaseEntity {
     @Embedded
     private Name name;
 
-    private String uniqueRegistrationNumber;
+    @OneToOne(mappedBy = "person")
+    private UserEntity user;
 
-    public Long getId() {
-        return id;
+    @Column(name = "ID_NUMBER")
+    private String identificationNumber;
+
+    public String getIdentificationNumber() {
+        return identificationNumber;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUniqueRegistrationNumber() {
-        return uniqueRegistrationNumber;
-    }
-
-    public void setUniqueRegistrationNumber(String uniqueRegistrationNumber) {
-        this.uniqueRegistrationNumber = uniqueRegistrationNumber;
+    public void setIdentificationNumber(String identificationNumber) {
+        this.identificationNumber = identificationNumber;
     }
 
     public Name getName() {
@@ -36,5 +31,13 @@ public abstract class PersonEntity {
 
     public void setName(Name name) {
         this.name = name;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

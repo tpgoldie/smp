@@ -1,6 +1,8 @@
 package com.tpg.smp.persistence.entities;
 
-import static com.tpg.smp.persistence.entities.AdministrativeStaffMemberType.Registrar;
+import com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType;
+
+import static com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType.Registrar;
 
 public class AdministrativeStaffMemberEntities extends PersonEntities<AdministrativeStaffMemberEntity> {
     public AdministrativeStaffMemberEntities() {
@@ -13,7 +15,7 @@ public class AdministrativeStaffMemberEntities extends PersonEntities<Administra
 
         entity.setId(COUNTER++);
         setName(firstName, lastName, entity);
-        entity.setStaffMemberNumber(staffMemberNumber);
+        entity.setIdentificationNumber(staffMemberNumber);
         entity.setAdministrativeStaffMemberType(administrativeStaffMemberType);
 
         return entity;

@@ -13,6 +13,6 @@ public class AdministrativeStaffMemberConverter extends PersonConverter<Administ
     @Override
     public AdministrativeStaffMember convert(AdministrativeStaffMemberEntity source) {
         return new AdministrativeStaffMember(new Name(source.getName().getFirstName(), source.getName().getLastName()),
-            userEntity.getUsername(), source.getStaffMemberNumber(), source.getAdministrativeStaffMemberType());
+            userEntity.getUsername(), source.getIdentificationNumber(), source.getAdministrativeStaffMemberType());
     }
 }

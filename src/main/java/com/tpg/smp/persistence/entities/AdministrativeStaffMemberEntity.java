@@ -1,22 +1,16 @@
 package com.tpg.smp.persistence.entities;
 
+import com.tpg.smp.persistence.entities.convertibles.AdministrativeStaffMemberTypeConvertible;
+import com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType;
+
 import javax.persistence.*;
 
 @Entity(name = "adminStaff")
-@Table(name = "ADMIN_STAFF")
+@Table(name = "T_ADMIN_STAFF", schema = "SMP")
 public class AdministrativeStaffMemberEntity extends PersonEntity {
     @Column(name = "ADMIN_STAFF_MEMBER_TYPE")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = AdministrativeStaffMemberTypeConvertible.class)
     private AdministrativeStaffMemberType administrativeStaffMemberType;
-
-    @AttributeOverride(name = "uniqueNumber", column = @Column(name = "STAFF_MEMBER_NUMBER"))
-    public String getStaffMemberNumber() {
-        return getUniqueRegistrationNumber();
-    }
-
-    public void setStaffMemberNumber(String staffMemberId) {
-        setUniqueRegistrationNumber(staffMemberId);
-    }
 
     public AdministrativeStaffMemberType getAdministrativeStaffMemberType() {
         return administrativeStaffMemberType;

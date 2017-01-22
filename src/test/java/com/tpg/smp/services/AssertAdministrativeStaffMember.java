@@ -16,7 +16,7 @@ public class AssertAdministrativeStaffMember extends AssertPerson {
     public void matches(UserEntity userEntity, AdministrativeStaffMemberEntity administrativeStaffMemberEntity) {
         super.matches(userEntity, administrativeStaffMemberEntity);
 
-        assertThat(actual, hasProperty("registrationNumber", is(administrativeStaffMemberEntity.getStaffMemberNumber())));
+        assertThat(actual, hasProperty("registrationNumber", is(administrativeStaffMemberEntity.getIdentificationNumber())));
         assertThat(actual, hasProperty("administrativeStaffMemberType", is(administrativeStaffMemberEntity.getAdministrativeStaffMemberType())));
     }
 }

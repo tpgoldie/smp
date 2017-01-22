@@ -1,0 +1,35 @@
+INSERT INTO SMP.T_DEPARTMENTS(id, name, dept_number) VALUES(101, 'Mathematics', 'MATHS_01');
+
+INSERT INTO SMP.T_DEPARTMENTS(id, name, dept_number) VALUES(102, 'Fashion And Design', 'FASH_DES_01');
+
+INSERT INTO SMP.T_DEPARTMENTS(id, name, dept_number) VALUES(103, 'Computer Science', 'COMP_SCI_02');
+
+COMMIT;
+
+
+INSERT INTO SMP.T_PERSONS(id, first_name, last_name, id_number) VALUES(101, 'Tony', 'Golding', 'ABD-123');
+
+INSERT INTO SMP.T_PERSONS(id, first_name, last_name, id_number) VALUES(102, 'Michael', 'Danque', 'DFD-124');
+
+INSERT INTO SMP.T_PERSONS(id, first_name, last_name, id_number) VALUES(103, 'Roger', 'Johnson', 'KOI-125');
+
+INSERT INTO SMP.T_PERSONS(id, first_name, last_name, id_number) VALUES(104, 'Vivenne', 'Westwood', 'DJK-126');
+
+COMMIT;
+
+
+INSERT INTO SMP.T_USERS_DETAILS(id, person_id, user_name, secure_token) VALUES(101, 101, 'tpgolding', '12345');
+
+INSERT INTO SMP.T_USERS_DETAILS(id, person_id, user_name, secure_token) VALUES(102, 102, 'midanque', '12346');
+
+INSERT INTO SMP.T_USERS_DETAILS(id, person_id, user_name, secure_token) VALUES(103, 103, 'rojohnson', '12347');
+
+INSERT INTO SMP.T_USERS_DETAILS(id, person_id, user_name, secure_token) VALUES(104, 104, 'viwestwood', '12348');
+
+COMMIT;
+
+
+INSERT INTO SMP.T_TEACHING_STAFF(id, teaching_staff_member_type, dept_id) VALUES(104, 'Affiliate Lecturer', 102);
+
+COMMIT;
+

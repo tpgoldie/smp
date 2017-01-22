@@ -1,19 +1,17 @@
 package com.tpg.smp.auth;
 
 import com.google.common.base.Optional;
-import com.tpg.smp.data.PasswordGenerator;
 import com.tpg.smp.domain.*;
-import com.tpg.smp.persistence.entities.AcademicStaffMemberType;
-import com.tpg.smp.persistence.entities.AdministrativeStaffMemberType;
+import com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType;
+import com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType;
 import com.tpg.smp.util.RandomStringGenerator;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
-import static com.tpg.smp.persistence.entities.AcademicStaffMemberType.AffiliateLecturer;
-import static com.tpg.smp.persistence.entities.AdministrativeStaffMemberType.Registrar;
+import static com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType.AffiliateLecturer;
+import static com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType.Registrar;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 

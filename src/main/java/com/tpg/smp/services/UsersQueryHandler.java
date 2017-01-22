@@ -2,9 +2,6 @@ package com.tpg.smp.services;
 
 import com.google.common.base.Optional;
 import com.tpg.smp.auth.AuthenticatedUser;
-import com.tpg.smp.domain.AlumniMember;
-import com.tpg.smp.domain.Name;
-import com.tpg.smp.domain.Student;
 import com.tpg.smp.persistence.entities.*;
 import com.tpg.smp.persistence.repositories.*;
 import com.tpg.smp.services.conversion.AdministrativeStaffMemberConverter;
@@ -12,7 +9,6 @@ import com.tpg.smp.services.conversion.AlumniMemberConverter;
 import com.tpg.smp.services.conversion.StudentConverter;
 import com.tpg.smp.services.conversion.AcademicStaffMemberConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import static com.google.common.base.Optional.absent;
@@ -48,25 +44,25 @@ public class UsersQueryHandler implements UsersQueryService {
 
         if (!userEntity.isPresent()) { return absent(); }
 
-        Optional<StudentEntity> studentEntity = studentsQueryRepository.findById(userEntity.get().getPersonId());
+        Optional<StudentEntity> studentEntity = studentsQueryRepository.findById(userEntity.get().getPerson().getId());
 
         if (studentEntity.isPresent()) {
             return userEntity.transform(e -> new StudentConverter(e).convert(studentEntity.get()));
         }
 
-        Optional<AcademicStaffMemberEntity> academicStaffMember = academicStaffMembersQueryRepository.findById(userEntity.get().getPersonId());
+        Optional<AcademicStaffMemberEntity> academicStaffMember = academicStaffMembersQueryRepository.findById(userEntity.get().getPerson().getId());
 
         if (academicStaffMember.isPresent()) {
             return userEntity.transform(e -> new AcademicStaffMemberConverter(e).convert(academicStaffMember.get()));
         }
 
-        Optional<AdministrativeStaffMemberEntity> adminStaffMember = administrativeStaffMembersQueryRepository.findById(userEntity.get().getPersonId());
+        Optional<AdministrativeStaffMemberEntity> adminStaffMember = administrativeStaffMembersQueryRepository.findById(userEntity.get().getPerson().getId());
 
         if (adminStaffMember.isPresent()) {
             return userEntity.transform(e -> new AdministrativeStaffMemberConverter(e).convert(adminStaffMember.get()));
         }
 
-        Optional<AlumniMemberEntity> alumniMember = alumniMembersQueryRepository.findById(userEntity.get().getPersonId());
+        Optional<AlumniMemberEntity> alumniMember = alumniMembersQueryRepository.findById(userEntity.get().getPerson().getId());
 
         if (alumniMember.isPresent()) {
             return userEntity.transform(e -> new AlumniMemberConverter(e).convert(alumniMember.get()));

@@ -1,26 +1,19 @@
 package com.tpg.smp.persistence.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity(name = "user")
-@Table(name = "USER_DETAILS", schema = "SMP")
-public class UserEntity {
-    private Long id;
-
+@Table(name = "T_USERS_DETAILS", schema = "SMP")
+public class UserEntity extends BaseEntity {
+    @Column(name = "USER_NAME")
     private String username;
 
+    @Column(name = "SECURE_TOKEN")
     private String secureToken;
 
-    private Long personId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @OneToOne
+    @JoinColumn(name = "PERSON_ID")
+    private PersonEntity person;
 
     public String getUsername() {
         return username;
@@ -38,11 +31,11 @@ public class UserEntity {
         this.secureToken = secureToken;
     }
 
-    public Long getPersonId() {
-        return personId;
+    public PersonEntity getPerson() {
+        return person;
     }
 
-    public void setPersonId(Long personId) {
-        this.personId = personId;
+    public void setPerson(PersonEntity person) {
+        this.person = person;
     }
 }

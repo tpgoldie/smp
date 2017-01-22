@@ -1,11 +1,14 @@
 package com.tpg.smp.persistence.entities.embeddables;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Name {
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
+    @Column(name = "LAST_NAME")
     private String lastName;
 
     public String getFirstName() {

@@ -1,6 +1,6 @@
 package com.tpg.smp.domain;
 
-import com.tpg.smp.persistence.entities.AcademicStaffMemberType;
+import com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType;
 
 public class AcademicStaffMember extends Person {
     private AcademicStaffMemberType academicStaffMemberType;
