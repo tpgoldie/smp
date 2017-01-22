@@ -1,5 +1,3 @@
-INSERT INTO SMP.T_DEPARTMENTS(id, name, dept_number) VALUES(101, 'Mathematics', 'MATHS_01');
-
 INSERT INTO SMP.T_DEPARTMENTS(id, name, dept_number) VALUES(102, 'Fashion And Design', 'FASH_DES_01');
 
 INSERT INTO SMP.T_DEPARTMENTS(id, name, dept_number) VALUES(103, 'Computer Science', 'COMP_SCI_02');

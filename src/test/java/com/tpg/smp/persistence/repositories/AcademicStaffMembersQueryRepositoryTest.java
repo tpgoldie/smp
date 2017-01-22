@@ -15,7 +15,11 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
+import static com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType.AffiliateLecturer;
+import static com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType.Professor;
+import static com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType.ResearchFellow;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
@@ -47,16 +51,38 @@ public class AcademicStaffMembersQueryRepositoryTest {
     private AcademicStaffMembersQueryRepository academicStaffMembersQueryRepository;
 
     @Test
-    public void findByDepartment_department_findAllMembersOfTheGivenDepartment() {
-        List<AcademicStaffMemberEntity> actualist = academicStaffMembersQueryRepository.findByDepartmentNameIgnoreCase("fashion and design");
-        assertThat(actualist.size(), is(1));
+    public void findByDepartment_department_findAllMembersOfTheGivenDepartmentSingleResult() {
+        List<AcademicStaffMemberEntity> actualList = academicStaffMembersQueryRepository.findByDepartmentNameIgnoreCase("fashion and design");
+        assertThat(actualList.size(), is(1));
 
-        AcademicStaffMemberEntity actual = actualist.get(0);
+        AcademicStaffMemberEntity actual = actualList.get(0);
 
         assertThat(actual.getName(), hasProperty("firstName", is("Vivenne")));
         assertThat(actual.getName(), hasProperty("lastName", is("Westwood")));
 
-        assertThat(actual.getAcademicStaffMemberType(), hasProperty("description", is(AcademicStaffMemberType.AffiliateLecturer.getDescription())));
+        assertThat(actual.getAcademicStaffMemberType(), hasProperty("description", is(AffiliateLecturer.getDescription())));
         assertThat(actual.getDepartment(), hasProperty("name", is("Fashion And Design")));
+    }
+
+    @Test
+    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:sql/maths-dept-data.sql")
+    public void findByDepartment_department_findAllMembersOfTheGivenDepartmentMultipleResults() {
+        List<AcademicStaffMemberEntity> actualList = academicStaffMembersQueryRepository.findByDepartmentNameIgnoreCase("Mathematics");
+        assertThat(actualList.size(), is(2));
+
+        Optional<AcademicStaffMemberEntity> ian = findByName(actualList, "Ian", "Stewart");
+        assertThat(ian.isPresent(), is(true));
+        assertThat(ian.get().getDepartment(), hasProperty("name", is("Mathematics")));
+        assertThat(ian.get().getAcademicStaffMemberType(), hasProperty("description", is(Professor.getDescription())));
+
+        Optional<AcademicStaffMemberEntity> richard = findByName(actualList, "Richard", "Adams");
+        assertThat(richard.isPresent(), is(true));
+        assertThat(richard.get().getDepartment(), hasProperty("name", is("Mathematics")));
+        assertThat(richard.get().getAcademicStaffMemberType(), hasProperty("description", is(ResearchFellow.getDescription())));
+    }
+
+    private Optional<AcademicStaffMemberEntity> findByName(List<AcademicStaffMemberEntity> actualList, String firstName, String lastName) {
+        return actualList.stream().filter(m -> m.getName().getFirstName().equals(firstName) &&
+            m.getName().getLastName().equals(lastName)).findFirst();
     }
 }
