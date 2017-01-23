@@ -1,19 +1,25 @@
-package com.tpg.smp.web.pages;
+package com.tpg.smp.web.ui;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.tpg.smp.web.SmpWebIntegrationTest;
 import com.tpg.smp.web.context.SmpWebAppInitializer;
+import com.tpg.smp.web.ui.pages.IndexPage;
+import com.tpg.smp.web.ui.pages.IndexPageAssert;
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.*;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
 import org.springframework.test.web.servlet.htmlunit.webdriver.MockMvcHtmlUnitDriverBuilder;
@@ -26,10 +32,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = SmpWebAppInitializer.class, webEnvironment = RANDOM_PORT)
-@Profile("intTest")
-public class HomeViewIntegrationTest {
+public class HomePageIntegrationTest extends SmpWebIntegrationTest {
     @Configuration
     static class Config {
         @Autowired
@@ -50,25 +53,24 @@ public class HomeViewIntegrationTest {
     private WebClient webClient;
 
     @Autowired
-    private HtmlUnitDriver unitDriver;
+    private WebDriver webDriver;
 
     @LocalServerPort
     private int port;
 
+    private IndexPage indexPage;
+
+    @Before
+    public void setUp() throws Exception {
+        String url = String.format("http://localhost:%d/smp/index", port);
+        webDriver.get(url);
+
+        indexPage = PageFactory.initElements(webDriver, IndexPage.class);
+    }
+
     @Test
     public void loadHomePage_homePageRequest_expectHomePageIsLoaded() throws IOException {
-        String url = String.format("http://localhost:%d/smp/index", port);
-
-        unitDriver.get(url);
-
-        WebElement element = unitDriver.findElement(By.id("welcome-id"));
-        assertThat(element, hasProperty("text", is("Welcome To the University of Warwick")));
-
-        webClient.addRequestHeader("Accept-Language", "en");
-        webClient.addRequestHeader("Content-Type", TEXT_HTML_VALUE);
-
-        HtmlPage page = webClient.getPage(url);
-
-       Assertions.assertThat(page.getBody().getTextContent()).contains("Welcome To the University of Warwick");
+        IndexPageAssert assertation = indexPage.assertThat();
+        assertation.hasWelcomeMessage();
     }
 }

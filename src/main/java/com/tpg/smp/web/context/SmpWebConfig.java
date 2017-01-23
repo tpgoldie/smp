@@ -1,19 +1,16 @@
 package com.tpg.smp.web.context;
 
-import com.tpg.smp.web.controllers.SmpController;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
-@ComponentScan(basePackages = {"com.tpg.smp.web"})
-@Import({ContentNegotiation.class})
+@ComponentScan(basePackages = {"com.tpg.smp.web", "com.tpg.smp.auth"})
 public class SmpWebConfig extends WebMvcConfigurerAdapter {
     private static final String WEBAPP_NAME = "smp";
 

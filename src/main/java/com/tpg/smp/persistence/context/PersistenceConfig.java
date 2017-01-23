@@ -7,6 +7,7 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,7 @@ import static javax.persistence.ValidationMode.AUTO;
 @Configuration
 @ComponentScan(basePackages = {"com.tpg.smp.persistence.context"})
 @EnableJpaRepositories(basePackageClasses = {QueryRepository.class})
+@EnableConfigurationProperties
 @EntityScan(basePackageClasses = {BaseEntity.class})
 public class PersistenceConfig {
     @Autowired

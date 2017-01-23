@@ -10,6 +10,22 @@
 <body>
     <div>
         <p id="welcome-id"><spring:message code="welcome"/></p>
-        <p id="login-id"><input type="submit" value='<spring:message code="login"/>'></p>
+
+        <form:form method="POST" action="/smp/login" commandName="userModel">
+            <table>
+                <tr>
+                    <td><spring:message code="username.label"/></td>
+                    <td><form:input id="username-id" path="username" /></td>
+                    <td><form:errors path="username" cssStyle="color: #ff0000;"/></td>
+                </tr>
+                <tr>
+                    <td><spring:message code="password.label"/></td>
+                    <td><form:input id="secure-token-id", path="secureToken" /></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="submit" value="Submit"></td>
+                </tr>
+            </table>
+        </form:form>
     </div>
 </body>

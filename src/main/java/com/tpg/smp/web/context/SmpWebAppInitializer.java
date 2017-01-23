@@ -2,7 +2,14 @@ package com.tpg.smp.web.context;
 
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.*;
+import org.springframework.boot.autoconfigure.websocket.WebSocketAutoConfiguration;
+import org.springframework.boot.autoconfigure.websocket.WebSocketMessagingAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +24,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {WebMvcAutoConfiguration.class, WebClientAutoConfiguration.class,
+        WebSocketAutoConfiguration.class, WebSocketMessagingAutoConfiguration.class,
+        SpringDataWebAutoConfiguration.class, MultipartAutoConfiguration.class, HttpEncodingAutoConfiguration.class,
+        HibernateJpaAutoConfiguration.class, JpaRepositoriesAutoConfiguration.class, DataSourceAutoConfiguration.class,
+        JdbcTemplateAutoConfiguration.class})
 public class SmpWebAppInitializer extends SpringBootServletInitializer {
     private static final String WEBAPP_NAME = "smp";
 
@@ -28,6 +39,7 @@ public class SmpWebAppInitializer extends SpringBootServletInitializer {
     private static final String WEBAPP_PREFIX = String.format("/%s", WEBAPP_NAME);
 
     private static final String MAPPING_CONTEXT = String.format("%s/*", WEBAPP_PREFIX);
+
     private static final String THROW_EXCEPTION_FOR_NO_HANDLER_KEY = "throwExceptionIfNoHandlerFound";
 
     private static final int LOAD_ON_STARTUP = 2;
