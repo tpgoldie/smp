@@ -7,4 +7,6 @@ public class MessageKeyConstants {
     public static final String LOGIN_ERROR_KEY = "login.error";
 
     public static final String STUDENT_REGISTRATION_SUCCESS_KEY = "student.registration.success";
+
+    public static final String STUDENT_REGISTRATION_FAILURE_KEY = "student.registration.failure";
 }

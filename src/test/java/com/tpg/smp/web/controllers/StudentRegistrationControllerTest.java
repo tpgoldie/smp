@@ -5,18 +5,21 @@ import com.tpg.smp.data.PasswordGenerator;
 import com.tpg.smp.data.StudentData;
 import com.tpg.smp.data.StudentsData;
 import com.tpg.smp.domain.*;
+import com.tpg.smp.services.Failure;
 import com.tpg.smp.services.Success;
 import com.tpg.smp.services.registration.StudentRegistrationModel;
 import com.tpg.smp.services.registration.StudentRegistrationService;
 import com.tpg.smp.web.context.ContentNegotiation;
 import com.tpg.smp.web.context.SmpWebConfig;
 import com.tpg.smp.web.controllers.expectations.HandleStudentRegistrationRequestExpectation;
+import com.tpg.smp.web.controllers.expectations.HandleStudentRegistrationRequestFailedExpectation;
 import com.tpg.smp.web.controllers.expectations.UserModelExpectedSessionAttribute;
 import com.tpg.smp.web.controllers.forms.StudentRegistrationForm;
 import com.tpg.smp.web.model.UserModel;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +40,8 @@ import static com.tpg.smp.domain.IdentityType.BritishDrivingLicence;
 import static com.tpg.smp.domain.IdentityType.Passport;
 import static java.util.Arrays.asList;
 import static java.util.Locale.UK;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -88,9 +89,13 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
 
     private StudentData studentData = new StudentsData().getStudent(0);
 
-    @Test
-    public void handleNewStudentRequest_newStudentRequest_newStudentRegistered() throws Exception {
-        UserModel userModel = studentData.getUserModel();
+    private UserModel userModel = studentData.getUserModel();
+
+    @Before
+    public void setUp() {
+        super.setUp();
+
+        reset(authenticationService, studentRegistrationService);
 
         formBuilder.name(studentData.getDomainModel().getFirstName(), studentData.getDomainModel().getLastName())
             .userModel(userModel)
@@ -99,12 +104,14 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
             .contactDetails("09632127748", "020864594983")
             .identityDetails(asList(
-                new StudentRegistrationFormBuilder.IdHolder(Passport, "BNM-UIO-MIDAN-29304"),
-                new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
-            )
-        );
+                    new StudentRegistrationFormBuilder.IdHolder(Passport, "BNM-UIO-MIDAN-29304"),
+                    new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
+                )
+            );
+    }
 
-
+    @Test
+    public void handleNewStudentRequest_newStudentRequest_newStudentRegistered() throws Exception {
         StudentRegistrationForm form = formBuilder.build();
 
         Student student = (Student) studentData.getDomainModel();
@@ -129,6 +136,31 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
         expectation.met();
 
         verify(authenticationService).authenticateUser(userModel);
+    }
+
+    @Test
+    public void handleStudentRegistrationFailure_invalidStudentRegistration_handledStudentRegsitrationFailure() throws Exception {
+        StudentRegistrationForm form = formBuilder.build();
+
+        Student student = (Student) studentData.getDomainModel();
+
+        when(authenticationService.authenticateUser(userModel)).thenReturn(of(student));
+
+        Failure failure = new Failure(String.format("%s %s registration failed.", student.getFirstName(), student.getLastName()));
+
+        when(studentRegistrationService.registerStudent(any(StudentRegistrationModel.class))).thenReturn(failure);
+
+        ResultActions resultsAction = new PerformRegistration(mockMvc, jackson2HttpMessageConverter, userModel, form).resultActions();
+
+        StudentRegistrationModel registrationModel = new StudentRegistrationModel(form);
+
+        HandleStudentRegistrationRequestFailedExpectation expectation = new HandleStudentRegistrationRequestFailedExpectation(resultsAction,
+                new HandleStudentRegistrationRequestFailedExpectation.RegistrationFailedMessageExpectedAttribute("You're student registration has failed."),
+                new HandleStudentRegistrationRequestFailedExpectation.StudentRegistrationModelExpectedAttribute(registrationModel),
+                new HandleStudentRegistrationRequestFailedExpectation.StudentRegistrationServiceVerification(form, studentRegistrationService),
+                new UserModelExpectedSessionAttribute(userModel));
+
+        expectation.met();
     }
 
     static class PerformRegistration {

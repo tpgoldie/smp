@@ -8,9 +8,7 @@ import com.tpg.smp.services.Success;
 import com.tpg.smp.services.registration.StudentRegistrationModel;
 import com.tpg.smp.services.registration.StudentRegistrationService;
 import com.tpg.smp.web.controllers.forms.StudentRegistrationForm;
-import com.tpg.smp.web.controllers.support.MessageKeyConstants;
 import com.tpg.smp.web.controllers.support.ModelAttributeKeyConstants;
-import com.tpg.smp.web.controllers.support.ViewConstants;
 import com.tpg.smp.web.model.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Locale;
 
-import static com.google.common.base.Optional.of;
+import static com.tpg.smp.web.controllers.support.MessageKeyConstants.STUDENT_REGISTRATION_FAILURE_KEY;
 import static com.tpg.smp.web.controllers.support.MessageKeyConstants.STUDENT_REGISTRATION_SUCCESS_KEY;
+import static com.tpg.smp.web.controllers.support.ModelAttributeKeyConstants.STUDENT_REGISTRATION_FAILURE_ATTRIBUTE_KEY;
+import static com.tpg.smp.web.controllers.support.ModelAttributeKeyConstants.STUDENT_REGISTRATION_MODEL_ATTRIBUTE_KEY;
 import static com.tpg.smp.web.controllers.support.ModelAttributeKeyConstants.STUDENT_REGISTRATION_SUCCESS_ATTRIBUTE_KEY;
+import static com.tpg.smp.web.controllers.support.ViewConstants.STUDENT_REGISTRATION_FAILURE_VIEW;
 import static com.tpg.smp.web.controllers.support.ViewConstants.STUDENT_REGISTRATION_SUCCESS_VIEW;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -54,15 +55,17 @@ public class StudentRegistrationController extends SmpController {
 
         Optional<AuthenticatedUser> checkedUser = authenticationService.authenticateUser(userModel);
 
+        String view = STUDENT_REGISTRATION_SUCCESS_VIEW;
+
         if (checkedUser.isPresent()) {
             boolean successful = handleStudentRegistration(model, locale, registrationForm);
 
-            if (successful) {
-                return STUDENT_REGISTRATION_SUCCESS_VIEW;
+            if (!successful) {
+                return STUDENT_REGISTRATION_FAILURE_VIEW;
             }
         }
 
-        return "";
+        return view;
     }
 
     private boolean handleStudentRegistration(Model model, Locale locale, StudentRegistrationForm registrationForm) {
@@ -73,10 +76,20 @@ public class StudentRegistrationController extends SmpController {
         ServiceOutcome outcome = studentRegistrationService.registerStudent(registrationModel);
         boolean successful = outcome instanceof Success;
 
+        String[] keys = new String[2];
+
         if (successful) {
-            addMessage(model, locale, STUDENT_REGISTRATION_SUCCESS_KEY, STUDENT_REGISTRATION_SUCCESS_ATTRIBUTE_KEY, new String[0]);
-            model.addAttribute(ModelAttributeKeyConstants.STUDENT_REGISTRATION_MODEL_ATTRIBUTE_KEY, registrationModel);
+            keys[0] = STUDENT_REGISTRATION_SUCCESS_KEY;
+            keys[1] = STUDENT_REGISTRATION_SUCCESS_ATTRIBUTE_KEY;
         }
+        else {
+            keys[0] = STUDENT_REGISTRATION_FAILURE_KEY;
+            keys[1] = STUDENT_REGISTRATION_FAILURE_ATTRIBUTE_KEY;
+        }
+
+        addMessage(model, locale, keys[0], keys[1], new String[0]);
+
+        model.addAttribute(STUDENT_REGISTRATION_MODEL_ATTRIBUTE_KEY, registrationModel);
 
         return successful;
     }

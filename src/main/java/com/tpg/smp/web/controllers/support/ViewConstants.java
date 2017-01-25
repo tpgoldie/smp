@@ -10,4 +10,6 @@ public class ViewConstants {
     public static final String LOGIN_VIEW = "login";
 
     public static final String STUDENT_REGISTRATION_SUCCESS_VIEW = "student/registration/success";
+
+    public static final String STUDENT_REGISTRATION_FAILURE_VIEW = "student/registration/register";
 }

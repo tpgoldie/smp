@@ -9,5 +9,7 @@ public class ModelAttributeKeyConstants {
 
     public static final String STUDENT_REGISTRATION_SUCCESS_ATTRIBUTE_KEY = "studentRegistrationSuccess";
 
+    public static final String STUDENT_REGISTRATION_FAILURE_ATTRIBUTE_KEY = "studentRegistrationFailed";
+
     public static final String STUDENT_REGISTRATION_MODEL_ATTRIBUTE_KEY = "studentRegistrationModel";
 }
