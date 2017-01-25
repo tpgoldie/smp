@@ -1,8 +1,10 @@
-package com.tpg.smp.persistence.entities.udts;
+package com.tpg.smp.domain;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-public abstract class WithDescription {
+import java.io.Serializable;
+
+public abstract class WithDescription implements Serializable {
     private final String description;
 
     WithDescription(String description) {

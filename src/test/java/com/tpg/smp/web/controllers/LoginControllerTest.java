@@ -1,18 +1,13 @@
 package com.tpg.smp.web.controllers;
 
-import com.tpg.smp.auth.AuthenticationService;
 import com.tpg.smp.data.StudentData;
 import com.tpg.smp.data.StudentsData;
 import com.tpg.smp.domain.Student;
-import com.tpg.smp.web.context.SmpWebConfig;
 import com.tpg.smp.web.controllers.expectations.HandleInvalidLoginRequestExpectation;
 import com.tpg.smp.web.controllers.expectations.HandleLoginRequestExpectation;
+import com.tpg.smp.web.controllers.expectations.UserModelExpectedSessionAttribute;
 import com.tpg.smp.web.model.UserModel;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.*;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -25,25 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@WebMvcTest({LoginController.class})
-@Profile("unitTest")
 public class LoginControllerTest extends BaseControllerTest {
-    @Configuration
-    @ComponentScan(basePackages = {"com.tpg.smp.web.context"})
-    @Import(SmpWebConfig.class)
-    static class Config {
-        @MockBean
-        private AuthenticationService authenticationService;
-
-        @Bean
-        public AuthenticationService authenticationService() {
-            return authenticationService;
-        }
-    }
-
-    @Autowired
-    private AuthenticationService authenticationService;
-
     private StudentData studentData = new StudentsData().getStudent(0);
 
     @Test
@@ -58,7 +35,7 @@ public class LoginControllerTest extends BaseControllerTest {
 
         HandleLoginRequestExpectation expectation = new HandleLoginRequestExpectation(resultsActions,
             new HandleLoginRequestExpectation.WelcomeExpectedAttribute(String.format("Welcome %s", authenticatedUser.getFirstName())),
-            new HandleLoginRequestExpectation.UserModelExpectedSessionAttribute(userModel));
+            new UserModelExpectedSessionAttribute(userModel));
 
         verify(authenticationService).authenticateUser(userModel);
 

@@ -1,6 +1,4 @@
-package com.tpg.smp.persistence.entities.udts;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
+package com.tpg.smp.domain;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -7,6 +7,7 @@ import com.tpg.smp.web.model.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,11 +32,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class LoginController extends SmpController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    private AuthenticationService authenticationService;
-
     @Autowired
-    public LoginController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
+    public LoginController(MessageSource messageSource, AuthenticationService authenticationService) {
+        super(messageSource, authenticationService);
     }
 
     @RequestMapping(value = "/login", consumes = APPLICATION_FORM_URLENCODED_VALUE, method = POST)

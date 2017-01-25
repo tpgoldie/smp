@@ -8,4 +8,6 @@ public class ViewConstants {
     public static final String INDEX_VIEW = "index";
 
     public static final String LOGIN_VIEW = "login";
+
+    public static final String STUDENT_REGISTRATION_SUCCESS_VIEW = "student/registration/success";
 }

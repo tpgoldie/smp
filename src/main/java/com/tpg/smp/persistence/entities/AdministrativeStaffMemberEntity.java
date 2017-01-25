@@ -1,7 +1,7 @@
 package com.tpg.smp.persistence.entities;
 
 import com.tpg.smp.persistence.entities.convertibles.AdministrativeStaffMemberTypeConvertible;
-import com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType;
+import com.tpg.smp.domain.AdministrativeStaffMemberType;
 
 import javax.persistence.*;
 

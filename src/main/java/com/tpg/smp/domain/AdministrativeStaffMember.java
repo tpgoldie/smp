@@ -1,7 +1,5 @@
 package com.tpg.smp.domain;
 
-import com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType;
-
 public class AdministrativeStaffMember extends Person {
     private AdministrativeStaffMemberType administrativeStaffMemberType;
 

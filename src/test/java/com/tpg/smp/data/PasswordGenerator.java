@@ -1,10 +1,12 @@
 package com.tpg.smp.data;
 
 import com.tpg.smp.util.RandomStringGenerator;
+import org.springframework.boot.test.context.TestComponent;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@TestComponent
 public class PasswordGenerator {
     private final RandomStringGenerator randomStringGenerator = new RandomStringGenerator();
 

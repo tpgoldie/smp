@@ -21,7 +21,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
-import javax.transaction.TransactionManager;
 
 import static javax.persistence.ValidationMode.AUTO;
 

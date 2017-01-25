@@ -1,8 +1,8 @@
 package com.tpg.smp.persistence.entities;
 
-import com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType;
+import com.tpg.smp.domain.AdministrativeStaffMemberType;
 
-import static com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType.Registrar;
+import static com.tpg.smp.domain.AdministrativeStaffMemberType.Registrar;
 
 public class AdministrativeStaffMemberEntities extends PersonEntities<AdministrativeStaffMemberEntity> {
     public AdministrativeStaffMemberEntities() {

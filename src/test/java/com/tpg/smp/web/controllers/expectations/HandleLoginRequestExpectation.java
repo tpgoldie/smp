@@ -1,6 +1,5 @@
 package com.tpg.smp.web.controllers.expectations;
 
-import com.tpg.smp.web.model.UserModel;
 import org.springframework.test.web.servlet.ResultActions;
 
 public class HandleLoginRequestExpectation extends RequestExpectation {
@@ -28,12 +27,6 @@ public class HandleLoginRequestExpectation extends RequestExpectation {
     public static class WelcomeExpectedAttribute extends ExpectedAttribute<String> {
         public WelcomeExpectedAttribute(String expectedValue) {
             super("welcome", expectedValue);
-        }
-    }
-
-    public static class UserModelExpectedSessionAttribute extends ExpectedAttribute<UserModel> {
-        public UserModelExpectedSessionAttribute(UserModel expectedValue) {
-            super("userModel", expectedValue);
         }
     }
 }

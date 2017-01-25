@@ -3,7 +3,6 @@ package com.tpg.smp.persistence.repositories;
 import com.tpg.smp.persistence.context.DataSourceConfig;
 import com.tpg.smp.persistence.context.PersistenceConfig;
 import com.tpg.smp.persistence.entities.AcademicStaffMemberEntity;
-import com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +16,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Optional;
 
-import static com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType.AffiliateLecturer;
-import static com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType.Professor;
-import static com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType.ResearchFellow;
+import static com.tpg.smp.domain.AcademicStaffMemberType.AffiliateLecturer;
+import static com.tpg.smp.domain.AcademicStaffMemberType.Professor;
+import static com.tpg.smp.domain.AcademicStaffMemberType.ResearchFellow;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class)
 @PropertySources(value = {
-    @PropertySource(value = "classpath:application-h2.properties")
+    @PropertySource(value = "classpath:application-unitTest.properties")
 })
 @ActiveProfiles({"h2"})
 @Sql(

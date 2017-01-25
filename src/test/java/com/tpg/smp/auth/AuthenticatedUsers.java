@@ -2,16 +2,16 @@ package com.tpg.smp.auth;
 
 import com.google.common.base.Optional;
 import com.tpg.smp.domain.*;
-import com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType;
-import com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType;
+import com.tpg.smp.domain.AcademicStaffMemberType;
+import com.tpg.smp.domain.AdministrativeStaffMemberType;
 import com.tpg.smp.util.RandomStringGenerator;
 
 import java.util.List;
 
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
-import static com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType.AffiliateLecturer;
-import static com.tpg.smp.persistence.entities.udts.AdministrativeStaffMemberType.Registrar;
+import static com.tpg.smp.domain.AcademicStaffMemberType.AffiliateLecturer;
+import static com.tpg.smp.domain.AdministrativeStaffMemberType.Registrar;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 

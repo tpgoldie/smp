@@ -1,6 +1,6 @@
 package com.tpg.smp.persistence.entities.convertibles;
 
-import com.tpg.smp.persistence.entities.udts.WithDescription;
+import com.tpg.smp.domain.WithDescription;
 
 import javax.persistence.AttributeConverter;
 import java.util.Set;

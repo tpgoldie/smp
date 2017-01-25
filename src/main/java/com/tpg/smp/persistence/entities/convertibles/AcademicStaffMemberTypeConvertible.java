@@ -1,6 +1,6 @@
 package com.tpg.smp.persistence.entities.convertibles;
 
-import com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType;
+import com.tpg.smp.domain.AcademicStaffMemberType;
 
 import javax.persistence.Converter;
 import java.util.Set;

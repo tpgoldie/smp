@@ -1,8 +1,8 @@
 package com.tpg.smp.persistence.entities;
 
-import com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType;
+import com.tpg.smp.domain.AcademicStaffMemberType;
 
-import static com.tpg.smp.persistence.entities.udts.AcademicStaffMemberType.AffiliateLecturer;
+import static com.tpg.smp.domain.AcademicStaffMemberType.AffiliateLecturer;
 
 public class AcademicStaffMemberEntities extends PersonEntities<AcademicStaffMemberEntity> {
     public AcademicStaffMemberEntities() {

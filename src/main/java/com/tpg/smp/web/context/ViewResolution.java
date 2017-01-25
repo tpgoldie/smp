@@ -1,6 +1,5 @@
 package com.tpg.smp.web.context;
 
-import com.tpg.smp.web.controllers.support.ViewConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -19,8 +18,6 @@ public class ViewResolution {
         viewResolver.setSuffix(".jsp");
         viewResolver.setContentType(MediaType.TEXT_HTML_VALUE);
         viewResolver.setOrder(1);
-//        viewResolver.setViewNames(ViewConstants.INDEX_VIEW);
-//        viewResolver.setExposeContextBeansAsAttributes(true);
 
         return viewResolver;
     }
