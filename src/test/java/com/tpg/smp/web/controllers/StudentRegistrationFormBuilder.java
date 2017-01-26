@@ -24,6 +24,8 @@ public class StudentRegistrationFormBuilder {
 
     private List<IdentityDetails> identityDetails = new ArrayList<>();
 
+    private String courseReferenceNumber;
+
     public StudentRegistrationFormBuilder name(String firstName, String lastName) {
         this.name = new Name(firstName, lastName);
         return this;
@@ -88,6 +90,11 @@ public class StudentRegistrationFormBuilder {
         this.identityDetails.add(id);
     }
 
+    public StudentRegistrationFormBuilder courseReferenceNumber(String referenceNo) {
+        this.courseReferenceNumber = referenceNo;
+        return this;
+    }
+
     public StudentRegistrationForm build() {
         StudentRegistrationForm form = new StudentRegistrationForm();
 
@@ -104,6 +111,8 @@ public class StudentRegistrationFormBuilder {
 
         form.setUserModel(userModel);
         identityDetails.forEach(id -> form.addIdentityDetails(id));
+
+        form.setCourseReferenceNumber(courseReferenceNumber);
 
         return form;
     }

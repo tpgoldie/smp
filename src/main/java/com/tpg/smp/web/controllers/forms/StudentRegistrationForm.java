@@ -38,6 +38,9 @@ public class StudentRegistrationForm implements Serializable {
     @NotEmpty(message="{identity.details.missing}")
     private List<IdentityDetails> identityDetails = new ArrayList<>();
 
+    @NotEmpty(message = "{course.mmissing}")
+    private String courseReferenceNumber;
+
     public Name getName() {
         return name;
     }
@@ -100,5 +103,13 @@ public class StudentRegistrationForm implements Serializable {
 
     public List<IdentityDetails> getIdentityDetails() {
         return identityDetails;
+    }
+
+    public String getCourseReferenceNumber() {
+        return courseReferenceNumber;
+    }
+
+    public void setCourseReferenceNumber(String courseReferenceNumber) {
+        this.courseReferenceNumber = courseReferenceNumber;
     }
 }

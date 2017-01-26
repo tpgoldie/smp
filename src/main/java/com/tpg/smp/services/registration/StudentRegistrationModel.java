@@ -1,9 +1,6 @@
 package com.tpg.smp.services.registration;
 
-import com.tpg.smp.domain.Address;
-import com.tpg.smp.domain.ContactDetails;
-import com.tpg.smp.domain.IdentityDetails;
-import com.tpg.smp.domain.Name;
+import com.tpg.smp.domain.*;
 import com.tpg.smp.services.conversion.ToDateTimeConverter;
 import com.tpg.smp.web.controllers.forms.StudentRegistrationForm;
 import com.tpg.smp.web.model.UserModel;
@@ -20,6 +17,7 @@ public class StudentRegistrationModel {
     private final DateTime dateOfRegistration;
     private final ContactDetails contactDetails;
     private final List<IdentityDetails> identityDetails;
+    private Course course;
 
     public StudentRegistrationModel(StudentRegistrationForm form) {
         name = form.getName();
@@ -65,6 +63,14 @@ public class StudentRegistrationModel {
         return identityDetails;
     }
 
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) { return true; }
@@ -80,6 +86,7 @@ public class StudentRegistrationModel {
             .append(that.dateOfRegistration, this.dateOfRegistration)
             .append(that.contactDetails, this.contactDetails)
             .append(that.identityDetails, this.identityDetails)
+            .append(that.course, this.course)
             .isEquals();
     }
 }

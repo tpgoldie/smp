@@ -1,5 +1,6 @@
 package com.tpg.smp.web.controllers;
 
+import com.tpg.smp.services.CoursesQueryService;
 import com.tpg.smp.services.registration.StudentRegistrationService;
 import com.tpg.smp.web.context.ContentNegotiation;
 import com.tpg.smp.web.context.SmpWebConfig;
@@ -16,6 +17,12 @@ public class ControllerTestConfig {
     @MockBean
     private StudentRegistrationService studentRegistrationService;
 
+    @MockBean
+    private CoursesQueryService coursesQueryService;
+
     @Bean
     public StudentRegistrationService studentRegistrationService() { return studentRegistrationService; }
+
+    @Bean
+    public CoursesQueryService coursesQueryService() { return coursesQueryService; }
 }

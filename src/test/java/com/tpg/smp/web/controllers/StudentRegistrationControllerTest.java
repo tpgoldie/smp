@@ -1,8 +1,8 @@
 package com.tpg.smp.web.controllers;
 
-import com.tpg.smp.data.StudentData;
-import com.tpg.smp.data.StudentsData;
+import com.tpg.smp.data.*;
 import com.tpg.smp.domain.*;
+import com.tpg.smp.services.CoursesQueryService;
 import com.tpg.smp.services.Failure;
 import com.tpg.smp.services.Success;
 import com.tpg.smp.services.conversion.ToDateTimeConverter;
@@ -39,9 +39,14 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
     @Autowired
     private StudentRegistrationService studentRegistrationService;
 
+    @Autowired
+    private CoursesQueryService coursesQueryService;
+
     private StudentRegistrationFormBuilder formBuilder = new StudentRegistrationFormBuilder();
 
     private StudentData studentData = new StudentsData().getStudent(0);
+
+    private CourseData courseData = new CoursesData(new DepartmentsData()).getCourseData(0);
 
     private UserModel userModel = studentData.getUserModel();
 
@@ -49,7 +54,7 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
     public void setUp() {
         super.setUp();
 
-        reset(authenticationService, studentRegistrationService);
+        reset(authenticationService, studentRegistrationService, coursesQueryService);
 
         formBuilder.name(studentData.getDomainModel().getFirstName(), studentData.getDomainModel().getLastName())
             .userModel(userModel)
@@ -62,7 +67,8 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(Passport, "BNM-UIO-MIDAN-29304"),
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
-            );
+            )
+            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber());
     }
 
     @Test
@@ -73,6 +79,10 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
 
         when(authenticationService.authenticateUser(userModel)).thenReturn(of(student));
 
+        Course course = courseData.getDomainModel();
+
+        when(coursesQueryService.findCourseByReferenceNumber(form.getCourseReferenceNumber())).thenReturn(of(course));
+
         Success success = new Success(String.format("%s %s registered.", student.getFirstName(), student.getLastName()));
 
         when(studentRegistrationService.registerStudent(any(StudentRegistrationModel.class))).thenReturn(success);
@@ -80,6 +90,7 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
         ResultActions resultsAction = new PerformStudentRegistration(mockMvc, jackson2HttpMessageConverter, userModel, form).resultActions();
 
         StudentRegistrationModel registrationModel = new StudentRegistrationModel(form);
+        registrationModel.setCourse(course);
 
         HandleStudentRegistrationRequestExpectation expectation = new HandleStudentRegistrationRequestExpectation(resultsAction,
             new HandleStudentRegistrationRequestExpectation.SuccessfulRegistrationMessageExpectedAttribute("Your student registration has been successful."),
@@ -91,6 +102,8 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
         expectation.met();
 
         verify(authenticationService).authenticateUser(userModel);
+
+        verify(coursesQueryService).findCourseByReferenceNumber(course.getReferenceNumber());
     }
 
     @Test
@@ -101,6 +114,10 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
 
         when(authenticationService.authenticateUser(userModel)).thenReturn(of(student));
 
+        Course course = courseData.getDomainModel();
+
+        when(coursesQueryService.findCourseByReferenceNumber(form.getCourseReferenceNumber())).thenReturn(of(course));
+
         Failure failure = new Failure(String.format("%s %s registration failed.", student.getFirstName(), student.getLastName()));
 
         when(studentRegistrationService.registerStudent(any(StudentRegistrationModel.class))).thenReturn(failure);
@@ -108,6 +125,7 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
         ResultActions resultsAction = new PerformStudentRegistration(mockMvc, jackson2HttpMessageConverter, userModel, form).resultActions();
 
         StudentRegistrationModel registrationModel = new StudentRegistrationModel(form);
+        registrationModel.setCourse(course);
 
         HandleStudentRegistrationRequestFailedExpectation expectation = new HandleStudentRegistrationRequestFailedExpectation(resultsAction,
                 new HandleStudentRegistrationRequestFailedExpectation.RegistrationFailedMessageExpectedAttribute("Your student registration has failed."),
@@ -116,5 +134,9 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
                 new UserModelExpectedSessionAttribute(userModel));
 
         expectation.met();
+
+        verify(authenticationService).authenticateUser(userModel);
+
+        verify(coursesQueryService).findCourseByReferenceNumber(form.getCourseReferenceNumber());
     }
 }
