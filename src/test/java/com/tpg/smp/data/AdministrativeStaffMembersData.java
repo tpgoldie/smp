@@ -5,6 +5,7 @@ import com.tpg.smp.domain.Name;
 import com.tpg.smp.domain.Person;
 import com.tpg.smp.persistence.entities.AdministrativeStaffMemberEntities;
 import com.tpg.smp.persistence.entities.PersonEntity;
+import com.tpg.smp.persistence.entities.UserEntity;
 
 import static com.tpg.smp.domain.AdministrativeStaffMemberType.Registrar;
 
@@ -12,7 +13,9 @@ public class AdministrativeStaffMembersData extends UsersData {
     private final AdministrativeStaffMemberEntities administrativeStaffMemberEntities = new AdministrativeStaffMemberEntities();
 
     public AdministrativeStaffMembersData() {
+        UserEntity userEntity = userEntities.rogerJohnson();
         PersonEntity personEntity = administrativeStaffMemberEntities.rogerJohnson();
+        personEntity.setUser(userEntity);
 
         Name name = createDomainName(personEntity);
 

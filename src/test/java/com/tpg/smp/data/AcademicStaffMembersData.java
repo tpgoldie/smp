@@ -4,6 +4,7 @@ import com.tpg.smp.domain.AcademicStaffMember;
 import com.tpg.smp.domain.Name;
 import com.tpg.smp.persistence.entities.AcademicStaffMemberEntities;
 import com.tpg.smp.persistence.entities.AcademicStaffMemberEntity;
+import com.tpg.smp.persistence.entities.UserEntity;
 
 import static com.tpg.smp.domain.AcademicStaffMemberType.AffiliateLecturer;
 
@@ -12,6 +13,9 @@ public class AcademicStaffMembersData extends UsersData {
 
     public AcademicStaffMembersData() {
         AcademicStaffMemberEntity personEntity = academicStaffMemberEntities.vienneWestwood();
+        UserEntity userEntity = userEntities.vienneWestwood();
+        personEntity.setUser(userEntity);
+
         Name name = createDomainName(personEntity);
 
         AcademicStaffMember domainModel = new AcademicStaffMember(name, personEntity.getUser().getUsername(),

@@ -21,14 +21,14 @@ public class StudentRegistrationModel {
     private final ContactDetails contactDetails;
     private final List<IdentityDetails> identityDetails;
 
-    private final ToDateTimeConverter toDateTimeConverter = new ToDateTimeConverter();
-
     public StudentRegistrationModel(StudentRegistrationForm form) {
         name = form.getName();
 
         userModel = form.getUserModel();
 
         address = form.getAddress();
+
+        ToDateTimeConverter toDateTimeConverter = new ToDateTimeConverter();
 
         dateOfBirth = toDateTimeConverter.convert(form.getDateOfBirth());
         dateOfRegistration = toDateTimeConverter.convert(form.getDateOfRegistration());

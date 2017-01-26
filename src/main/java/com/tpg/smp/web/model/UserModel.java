@@ -1,9 +1,16 @@
 package com.tpg.smp.web.model;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
 
 public class UserModel {
+    @NotEmpty(message = "{usermodel.invalid}")
+    @Size(max = 10, message = "{usermodel.invalid}")
     private String username;
+
+    @Size(min = 8, message = "{usermodel.invalid}")
     private String secureToken;
 
     public String getUsername() {

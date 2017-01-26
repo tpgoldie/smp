@@ -1,6 +1,8 @@
 package com.tpg.smp.domain;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ public class Address {
 
     private String country;
 
+    @NotEmpty
     private String postCode;
 
     public String getLine(int index) { return lines.get(index); }

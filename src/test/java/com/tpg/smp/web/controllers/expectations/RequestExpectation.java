@@ -18,6 +18,10 @@ abstract class RequestExpectation {
         resultActions.andExpect(status().isOk());
     }
 
+    void statusIsRedirection() throws Exception {
+        resultActions.andExpect(status().is3xxRedirection());
+    }
+
     void andViewNameIs(String name) throws Exception {
         resultActions.andExpect(view().name(name));
     }
@@ -34,7 +38,9 @@ abstract class RequestExpectation {
         return new SessionAttributeMatcher<>(resultActions, attributeName);
     }
 
-    ModelAttributeErrorMatcher andModelAttributeHasFieldError(String attributeName) {
-        return new ModelAttributeErrorMatcher(resultActions, attributeName);
+    ModelAttributeErrorMatcher andModelAttributeHasFieldError(String objectName, String fieldName, String message) {
+        return new ModelAttributeErrorMatcher(resultActions, objectName, fieldName, message);
     }
+
+    public abstract void met() throws Exception;
 }

@@ -1,5 +1,6 @@
 package com.tpg.smp.web.controllers.expectations;
 
+import com.google.common.base.Optional;
 import com.tpg.smp.services.conversion.FromDateTimeConverter;
 import com.tpg.smp.services.registration.StudentRegistrationModel;
 import com.tpg.smp.services.registration.StudentRegistrationService;
@@ -14,19 +15,22 @@ import static org.mockito.Mockito.verify;
 
 public class HandleStudentRegistrationRequestFailedExpectation extends RequestExpectation {
     private final RegistrationFailedMessageExpectedAttribute registrationFailedMessageExpectedAttribute;
-    private final StudentRegistrationModelExpectedAttribute studentRegistrationModelExpectedAttribute;
-    private final StudentRegistrationServiceVerification studentRegistrationServiceVerification;
+    private final Optional<StudentRegistrationModelExpectedAttribute> studentRegistrationModelExpectedAttribute;
+    private final Optional<StudentRegistrationFormExpectedErrorAttribute> studentRegistrationFormExpectedErrorAttribute;
+    private final Optional<StudentRegistrationServiceVerification> studentRegistrationServiceVerification;
     private final UserModelExpectedSessionAttribute userModelExpectedSessionAttribute;
 
     public HandleStudentRegistrationRequestFailedExpectation(ResultActions resultActions,
                                                              RegistrationFailedMessageExpectedAttribute registrationFailedMessageExpectedAttribute,
-                                                             StudentRegistrationModelExpectedAttribute studentRegistrationModelExpectedAttribute,
-                                                             StudentRegistrationServiceVerification studentRegistrationServiceVerification,
+                                                             Optional<StudentRegistrationModelExpectedAttribute> studentRegistrationModelExpectedAttribute,
+                                                             Optional<StudentRegistrationFormExpectedErrorAttribute> studentRegistrationFormExpectedErrorAttribute,
+                                                             Optional<StudentRegistrationServiceVerification> studentRegistrationServiceVerification,
                                                              UserModelExpectedSessionAttribute userModelExpectedSessionAttribute) {
         super(resultActions);
 
         this.registrationFailedMessageExpectedAttribute = registrationFailedMessageExpectedAttribute;
         this.studentRegistrationModelExpectedAttribute = studentRegistrationModelExpectedAttribute;
+        this.studentRegistrationFormExpectedErrorAttribute = studentRegistrationFormExpectedErrorAttribute;
         this.studentRegistrationServiceVerification = studentRegistrationServiceVerification;
         this.userModelExpectedSessionAttribute = userModelExpectedSessionAttribute;
     }
@@ -39,15 +43,23 @@ public class HandleStudentRegistrationRequestFailedExpectation extends RequestEx
         andForwardedUrlIs("/WEB-INF/views/student/registration/register.jsp");
 
         andModelAttribute(registrationFailedMessageExpectedAttribute.getAttributeName())
-                .is(registrationFailedMessageExpectedAttribute.getExpectedValue());
+            .is(registrationFailedMessageExpectedAttribute.getExpectedValue());
 
-        andModelAttribute(studentRegistrationModelExpectedAttribute.getAttributeName())
-                .is(studentRegistrationModelExpectedAttribute.getExpectedValue());
+        if (studentRegistrationModelExpectedAttribute.isPresent()) {
+            andModelAttribute(studentRegistrationModelExpectedAttribute.get().getAttributeName())
+                .is(studentRegistrationModelExpectedAttribute.get().getExpectedValue());
+        }
 
         andSessionAttribute(userModelExpectedSessionAttribute.getAttributeName())
-                .is(userModelExpectedSessionAttribute.getExpectedValue());
+            .is(userModelExpectedSessionAttribute.getExpectedValue());
 
-        studentRegistrationServiceVerification.met();
+        if (studentRegistrationFormExpectedErrorAttribute.isPresent()) {
+            studentRegistrationFormExpectedErrorAttribute.get().hasError();
+        }
+
+        if (studentRegistrationServiceVerification.isPresent()) {
+            studentRegistrationServiceVerification.get().met();
+        }
     }
 
     public static class RegistrationFailedMessageExpectedAttribute extends ExpectedAttribute<String> {
@@ -90,6 +102,12 @@ public class HandleStudentRegistrationRequestFailedExpectation extends RequestEx
 
             assertThat(fromDateTimeConverter.convert(actual.getDateOfBirth()), is(registrationForm.getDateOfBirth()));
             assertThat(fromDateTimeConverter.convert(actual.getDateOfRegistration()), is(registrationForm.getDateOfRegistration()));
+        }
+    }
+
+    public static class StudentRegistrationFormExpectedErrorAttribute extends ModelAttributeErrorMatcher {
+        public StudentRegistrationFormExpectedErrorAttribute(ResultActions resultActions, String attributeName, String msgKey) {
+            super(resultActions, "studentRegistrationForm", attributeName, msgKey);
         }
     }
 }

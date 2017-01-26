@@ -31,7 +31,7 @@ import static org.hamcrest.Matchers.is;
 @Sql(
     scripts = {"classpath:sql/schema-h2.sql", "classpath:sql/data-h2.sql"}
 )
-@TestPropertySource(properties = "spring.profiles.active=h2")
+@TestPropertySource(properties = "spring.profiles.active=unitTest")
 public class AcademicStaffMembersQueryRepositoryTest {
     @Configuration
     @EnableConfigurationProperties

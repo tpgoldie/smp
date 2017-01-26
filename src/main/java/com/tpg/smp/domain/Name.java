@@ -1,11 +1,19 @@
 package com.tpg.smp.domain;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class Name implements Serializable {
+    @NotEmpty(message = "{firstname.missing}")
+    @Size(max = 20, message = "{firstname.max.size}")
     private String firstName;
+
+    @NotBlank
     private String lastName;
 
     public Name() {}

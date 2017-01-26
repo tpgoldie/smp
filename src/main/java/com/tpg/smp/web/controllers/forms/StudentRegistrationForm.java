@@ -5,27 +5,37 @@ import com.tpg.smp.domain.ContactDetails;
 import com.tpg.smp.domain.IdentityDetails;
 import com.tpg.smp.domain.Name;
 import com.tpg.smp.web.model.UserModel;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRegistrationForm implements Serializable {
+    @Valid
     private Name name;
 
+    @NotEmpty(message = "{dateofbirth.missing}")
+    @Pattern(regexp = "^[0-9]{2}/[0-9]{2}/[1,2][9,0][0-9]{2}$", message = "{dateofbirth.invalid.format}")
     private String dateOfBirth;
 
+    @Valid
     private UserModel userModel;
 
     private String dateOfRegistration;
 
+    @Valid
     private Address address = new Address();
 
+    @Valid
     private ContactDetails contactDetails = new ContactDetails();
 
+    @NotEmpty(message="{identity.details.missing}")
     private List<IdentityDetails> identityDetails = new ArrayList<>();
 
     public Name getName() {

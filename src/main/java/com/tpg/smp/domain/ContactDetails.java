@@ -1,14 +1,17 @@
 package com.tpg.smp.domain;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactDetails implements Serializable {
+    @NotEmpty(message = "{contactnumber.missing}")
     private List<String> contactNumbers = new ArrayList<>();
 
+    @NotEmpty(message = "{main.emailaddress.missing}")
     private String mainEmailAddress;
 
     public String getContactNumber(int index) { return contactNumbers.get(index); }

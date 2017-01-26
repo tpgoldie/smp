@@ -24,8 +24,6 @@ public class StudentRegistrationFormBuilder {
 
     private List<IdentityDetails> identityDetails = new ArrayList<>();
 
-    private String emailAddress;
-
     public StudentRegistrationFormBuilder name(String firstName, String lastName) {
         this.name = new Name(firstName, lastName);
         return this;
@@ -72,7 +70,7 @@ public class StudentRegistrationFormBuilder {
     }
 
     public StudentRegistrationFormBuilder emailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+        this.contactDetails.setMainEmailAddress(emailAddress);
         return this;
     }
 
@@ -95,8 +93,13 @@ public class StudentRegistrationFormBuilder {
 
         form.setName(name);
         form.setAddress(address);
-        form.setDateOfBirth(fromDateTimeConverter.convert(dateOfBirth));
+
+        if (dateOfBirth != null) {
+            form.setDateOfBirth(fromDateTimeConverter.convert(dateOfBirth));
+        }
+
         form.setDateOfRegistration(fromDateTimeConverter.convert(dateOfRegistration));
+
         form.setContactDetails(contactDetails);
 
         form.setUserModel(userModel);
@@ -105,7 +108,7 @@ public class StudentRegistrationFormBuilder {
         return form;
     }
 
-    static class IdHolder {
+    public static class IdHolder {
         private final IdentityType identityType;
         private final String value;
 
