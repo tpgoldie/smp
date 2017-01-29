@@ -1,9 +1,7 @@
 package com.tpg.smp.services.registration;
 
-import com.tpg.smp.domain.Address;
-import com.tpg.smp.domain.ContactDetails;
-import com.tpg.smp.domain.IdentityDetails;
-import com.tpg.smp.domain.Name;
+import com.google.common.base.Optional;
+import com.tpg.smp.domain.*;
 import com.tpg.smp.services.conversion.ToDateTimeConverter;
 import com.tpg.smp.web.controllers.forms.StudentRegistrationForm;
 import com.tpg.smp.web.model.UserModel;
@@ -12,9 +10,13 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
+import static com.google.common.base.Optional.absent;
+import static com.google.common.base.Optional.of;
+
 public class StudentRegistrationModel {
     private final Name name;
     private final UserModel userModel;
+    private final GenderType gender;
     private final Address address;
     private final DateTime dateOfBirth;
     private final DateTime dateOfRegistration;
@@ -24,6 +26,8 @@ public class StudentRegistrationModel {
     public StudentRegistrationModel(StudentRegistrationForm form) {
         name = form.getName();
 
+        gender = findGenderTypeBySymbol(form.getGender()).get();
+
         userModel = form.getUserModel();
 
         address = form.getAddress();
@@ -31,15 +35,25 @@ public class StudentRegistrationModel {
         ToDateTimeConverter toDateTimeConverter = new ToDateTimeConverter();
 
         dateOfBirth = toDateTimeConverter.convert(form.getDateOfBirth());
+
         dateOfRegistration = toDateTimeConverter.convert(form.getDateOfRegistration());
 
         contactDetails = form.getContactDetails();
+
         identityDetails = form.getIdentityDetails();
+    }
+
+    private Optional<GenderType> findGenderTypeBySymbol(String symbol) {
+        java.util.Optional<GenderType> found = GenderType.TypedValues().stream().filter(g -> g.getSymbol().equalsIgnoreCase(symbol)).findAny();
+
+        return found.isPresent() ? of(found.get()) : absent();
     }
 
     public Name getName() {
         return name;
     }
+
+    public GenderType getGender() { return gender; }
 
     public UserModel getUserModel() {
         return userModel;

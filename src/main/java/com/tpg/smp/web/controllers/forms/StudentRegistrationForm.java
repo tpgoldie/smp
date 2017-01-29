@@ -27,6 +27,8 @@ public class StudentRegistrationForm implements Serializable {
     @Valid
     private UserModel userModel;
 
+    private String gender;
+
     private String dateOfRegistration;
 
     @Valid
@@ -100,5 +102,13 @@ public class StudentRegistrationForm implements Serializable {
 
     public List<IdentityDetails> getIdentityDetails() {
         return identityDetails;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

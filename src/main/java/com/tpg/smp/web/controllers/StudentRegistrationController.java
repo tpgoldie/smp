@@ -3,6 +3,9 @@ package com.tpg.smp.web.controllers;
 import com.google.common.base.Optional;
 import com.tpg.smp.auth.AuthenticatedUser;
 import com.tpg.smp.auth.AuthenticationService;
+import com.tpg.smp.domain.Country;
+import com.tpg.smp.domain.GenderType;
+import com.tpg.smp.services.InformationRetrievalService;
 import com.tpg.smp.services.ServiceOutcome;
 import com.tpg.smp.services.Success;
 import com.tpg.smp.services.registration.StudentRegistrationModel;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Set;
 
@@ -43,22 +47,36 @@ public class StudentRegistrationController extends SmpController {
 
     private Validator validator;
 
+    private InformationRetrievalService informationRetrievalService;
+
     private StudentRegistrationService studentRegistrationService;
 
     @Autowired
-    public StudentRegistrationController(MessageSource messageSource, Validator validator, AuthenticationService authenticationService, StudentRegistrationService studentRegistrationService) {
+    public StudentRegistrationController(MessageSource messageSource, Validator validator,
+                                         AuthenticationService authenticationService,
+                                         InformationRetrievalService informationRetrievalService,
+                                         StudentRegistrationService studentRegistrationService) {
         super(messageSource, authenticationService);
 
         this.validator = validator;
+        this.informationRetrievalService = informationRetrievalService;
         this.studentRegistrationService = studentRegistrationService;
     }
 
+    @ModelAttribute("countries")
+    public Collection<Country> getCountries() {
+        return informationRetrievalService.loadCountries();
+    }
+
+    @ModelAttribute("genders")
+    public Collection<GenderType> getGenders() { return informationRetrievalService.loadGenders(); }
+
     @RequestMapping(value = "/register", consumes = APPLICATION_JSON_UTF8_VALUE, method = POST)
     public String register(@RequestHeader("Accept-Language") Locale locale,
-                            @ModelAttribute("userModel") UserModel userModel,
-                            @RequestBody StudentRegistrationForm registrationForm,
-                            Model model,
-                            BindingResult bindingResult) throws IOException {
+                           @ModelAttribute("userModel") UserModel userModel,
+                           @RequestBody StudentRegistrationForm registrationForm,
+                           Model model,
+                           BindingResult bindingResult) throws IOException {
         LOGGER.debug("Registering student ...");
         LOGGER.debug("The user is {}.", userModel.getUsername());
 

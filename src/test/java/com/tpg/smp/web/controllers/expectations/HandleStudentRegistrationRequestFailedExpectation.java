@@ -15,6 +15,8 @@ import static org.mockito.Mockito.verify;
 
 public class HandleStudentRegistrationRequestFailedExpectation extends RequestExpectation {
     private final RegistrationFailedMessageExpectedAttribute registrationFailedMessageExpectedAttribute;
+    private final HandleStudentRegistrationRequestExpectation.StudentRegistrationModelCountriesExpectedAttribute studentRegistrationModelCountriesExpectedAttribute;
+    private final HandleStudentRegistrationRequestExpectation.StudentRegistrationModelGendersExpectedAttribute studentRegistrationModelGendersExpectedAttribute;
     private final Optional<StudentRegistrationModelExpectedAttribute> studentRegistrationModelExpectedAttribute;
     private final Optional<StudentRegistrationFormExpectedErrorAttribute> studentRegistrationFormExpectedErrorAttribute;
     private final Optional<StudentRegistrationServiceVerification> studentRegistrationServiceVerification;
@@ -22,6 +24,8 @@ public class HandleStudentRegistrationRequestFailedExpectation extends RequestEx
 
     public HandleStudentRegistrationRequestFailedExpectation(ResultActions resultActions,
                                                              RegistrationFailedMessageExpectedAttribute registrationFailedMessageExpectedAttribute,
+                                                             HandleStudentRegistrationRequestExpectation.StudentRegistrationModelCountriesExpectedAttribute studentRegistrationModelCountriesExpectedAttribute,
+                                                             HandleStudentRegistrationRequestExpectation.StudentRegistrationModelGendersExpectedAttribute studentRegistrationModelGendersExpectedAttribute,
                                                              Optional<StudentRegistrationModelExpectedAttribute> studentRegistrationModelExpectedAttribute,
                                                              Optional<StudentRegistrationFormExpectedErrorAttribute> studentRegistrationFormExpectedErrorAttribute,
                                                              Optional<StudentRegistrationServiceVerification> studentRegistrationServiceVerification,
@@ -29,6 +33,8 @@ public class HandleStudentRegistrationRequestFailedExpectation extends RequestEx
         super(resultActions);
 
         this.registrationFailedMessageExpectedAttribute = registrationFailedMessageExpectedAttribute;
+        this.studentRegistrationModelCountriesExpectedAttribute = studentRegistrationModelCountriesExpectedAttribute;
+        this.studentRegistrationModelGendersExpectedAttribute = studentRegistrationModelGendersExpectedAttribute;
         this.studentRegistrationModelExpectedAttribute = studentRegistrationModelExpectedAttribute;
         this.studentRegistrationFormExpectedErrorAttribute = studentRegistrationFormExpectedErrorAttribute;
         this.studentRegistrationServiceVerification = studentRegistrationServiceVerification;
@@ -49,6 +55,12 @@ public class HandleStudentRegistrationRequestFailedExpectation extends RequestEx
             andModelAttribute(studentRegistrationModelExpectedAttribute.get().getAttributeName())
                 .is(studentRegistrationModelExpectedAttribute.get().getExpectedValue());
         }
+
+        andModelAttribute(studentRegistrationModelCountriesExpectedAttribute.getAttributeName())
+            .is(studentRegistrationModelCountriesExpectedAttribute.getExpectedValue());
+
+        andModelAttribute(studentRegistrationModelGendersExpectedAttribute.getAttributeName())
+            .is(studentRegistrationModelGendersExpectedAttribute.getExpectedValue());
 
         andSessionAttribute(userModelExpectedSessionAttribute.getAttributeName())
             .is(userModelExpectedSessionAttribute.getExpectedValue());

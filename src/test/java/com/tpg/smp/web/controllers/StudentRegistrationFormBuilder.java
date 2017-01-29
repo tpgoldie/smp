@@ -15,6 +15,7 @@ public class StudentRegistrationFormBuilder {
     private final FromDateTimeConverter fromDateTimeConverter = new FromDateTimeConverter();
 
     private Name name;
+    private GenderType gender;
     private UserModel userModel;
     private DateTime dateOfBirth;
     private DateTime dateOfRegistration;
@@ -26,6 +27,11 @@ public class StudentRegistrationFormBuilder {
 
     public StudentRegistrationFormBuilder name(String firstName, String lastName) {
         this.name = new Name(firstName, lastName);
+        return this;
+    }
+
+    public StudentRegistrationFormBuilder gender(GenderType gender) {
+        this.gender = gender;
         return this;
     }
 
@@ -92,6 +98,9 @@ public class StudentRegistrationFormBuilder {
         StudentRegistrationForm form = new StudentRegistrationForm();
 
         form.setName(name);
+
+        form.setGender(gender.getSymbol());
+
         form.setAddress(address);
 
         if (dateOfBirth != null) {
@@ -103,6 +112,7 @@ public class StudentRegistrationFormBuilder {
         form.setContactDetails(contactDetails);
 
         form.setUserModel(userModel);
+
         identityDetails.forEach(id -> form.addIdentityDetails(id));
 
         return form;
