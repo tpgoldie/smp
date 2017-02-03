@@ -3,9 +3,9 @@ INSERT INTO SMP.T_DEPARTMENTS(id, name, dept_number) VALUES(201, 'Mathematics', 
 COMMIT;
 
 
-INSERT INTO SMP.T_PERSONS(id, first_name, last_name, id_number) VALUES(201, 'Ian', 'Stewart', 'ABD-201');
+INSERT INTO SMP.T_PERSONS(id, first_name, last_name, gender, id_number) VALUES(201, 'Ian', 'Stewart', 'MALE', 'ABD-201');
 
-INSERT INTO SMP.T_PERSONS(id, first_name, last_name, id_number) VALUES(202, 'Richard', 'Adams', 'ABD-201');
+INSERT INTO SMP.T_PERSONS(id, first_name, last_name, gender, id_number) VALUES(202, 'Richard', 'Adams', 'MALE', 'ABD-201');
 
 COMMIT;
 

@@ -1,9 +1,11 @@
 package com.tpg.smp.data;
 
+import com.google.common.base.Optional;
 import com.tpg.smp.auth.AuthenticatedUsers;
 import com.tpg.smp.domain.Name;
 import com.tpg.smp.persistence.entities.PersonEntity;
 import com.tpg.smp.persistence.entities.UserEntities;
+import com.tpg.smp.persistence.entities.UserEntity;
 import com.tpg.smp.web.model.UserModels;
 
 import java.util.ArrayList;
@@ -31,4 +33,8 @@ public class UsersData {
     public UserData getUserData(int index) { return userDataList.get(index); }
 
     void add(UserData userData) { userDataList.add(userData); }
+
+    public UserEntity findByUsername(String userId) {
+        return userEntities.findByUserId(userId);
+    }
 }

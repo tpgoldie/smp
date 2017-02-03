@@ -7,6 +7,7 @@ import com.tpg.smp.web.controllers.expectations.HandleInvalidLoginRequestExpecta
 import com.tpg.smp.web.controllers.expectations.HandleLoginRequestExpectation;
 import com.tpg.smp.web.controllers.expectations.UserModelExpectedSessionAttribute;
 import com.tpg.smp.web.model.UserModel;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -19,9 +20,15 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 public class LoginControllerTest extends BaseControllerTest {
     private StudentData studentData = new StudentsData().getStudent(0);
+
+    @Before
+    public void setUp() {
+        super.setUp();
+    }
 
     @Test
     public void loginAuthenticatedUser_validAuthenticatedUser_validUserIsLoggedIn() throws Exception {
@@ -66,12 +73,12 @@ public class LoginControllerTest extends BaseControllerTest {
 
         PerformLogin(MockMvc mockMvc, String username, String secureToken) throws Exception {
             resultActions = mockMvc.perform(post("/smp/login")
-                    .contentType(APPLICATION_FORM_URLENCODED_VALUE)
-                    .locale(UK)
-                    .param("username", username)
-                    .param("secureToken", secureToken)
-                    .header("Accept-Language", "en_GB")
-                    .sessionAttr("userModel", new UserModel()))
+                .contentType(APPLICATION_FORM_URLENCODED_VALUE)
+                .locale(UK)
+                .param("username", username)
+                .param("secureToken", secureToken)
+                .header("Accept-Language", "en_GB")
+                .sessionAttr("userModel", new UserModel()))
                 .andDo(print());
         }
 

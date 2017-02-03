@@ -20,6 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
 import static com.tpg.smp.domain.Country.UnitedKingdom;
@@ -34,6 +37,8 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(classes = {ControllerTestConfig.class})
 public class StudentRegistrationControllerTest extends BaseControllerTest {
     static final DateTime DATE_OF_BIRTH = new ToDateTimeConverter().convert("13/04/1997");
+
+    static final List<GenderType> GENDERS = GenderType.TypedValues().stream().collect(Collectors.toList());
 
     @Autowired
     private InformationRetrievalService informationRetrievalService;
@@ -59,7 +64,8 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
             .dateOfBirth(DATE_OF_BIRTH)
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .emailAddress("abc@google.com")
             .identityDetails(asList(
                 new StudentRegistrationFormBuilder.IdHolder(Passport, "BNM-UIO-MIDAN-29304"),
@@ -81,7 +87,7 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
 
         when(informationRetrievalService.loadCountries()).thenReturn(countriesService.findAll());
 
-        when(informationRetrievalService.loadGenders()).thenReturn(GenderType.TypedValues());
+        when(informationRetrievalService.loadGenders()).thenReturn(GenderType.TypedValues().stream().collect(Collectors.toList()));
 
         ResultActions resultsAction = new PerformStudentRegistration(mockMvc, jackson2HttpMessageConverter, userModel, form).resultActions();
 
@@ -116,7 +122,7 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
 
         when(informationRetrievalService.loadCountries()).thenReturn(countriesService.findAll());
 
-        when(informationRetrievalService.loadGenders()).thenReturn(GenderType.TypedValues());
+        when(informationRetrievalService.loadGenders()).thenReturn(GENDERS);
 
         when(studentRegistrationService.registerStudent(any(StudentRegistrationModel.class))).thenReturn(failure);
 
@@ -127,7 +133,7 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
         HandleStudentRegistrationRequestFailedExpectation expectation = new HandleStudentRegistrationRequestFailedExpectation(resultsAction,
             new HandleStudentRegistrationRequestFailedExpectation.RegistrationFailedMessageExpectedAttribute("Your student registration has failed."),
             new HandleStudentRegistrationRequestExpectation.StudentRegistrationModelCountriesExpectedAttribute(countriesService.findAll()),
-            new HandleStudentRegistrationRequestExpectation.StudentRegistrationModelGendersExpectedAttribute(GenderType.TypedValues()),
+            new HandleStudentRegistrationRequestExpectation.StudentRegistrationModelGendersExpectedAttribute(GENDERS),
             of(new HandleStudentRegistrationRequestFailedExpectation.StudentRegistrationModelExpectedAttribute(registrationModel)), absent(),
             of(new HandleStudentRegistrationRequestFailedExpectation.StudentRegistrationServiceVerification(form, studentRegistrationService)),
             new UserModelExpectedSessionAttribute(userModel));

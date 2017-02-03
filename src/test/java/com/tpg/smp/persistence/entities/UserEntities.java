@@ -23,7 +23,7 @@ public class UserEntities extends SmpEntities<UserEntity> {
         return entity;
     }
 
-    UserEntity findByUserId(String id) {
+    public UserEntity findByUserId(String id) {
         Optional<UserEntity> found = entities.stream().filter(e -> e.getUsername().equalsIgnoreCase(id)).findAny();
 
         if (found.isPresent()) { return found.get(); }

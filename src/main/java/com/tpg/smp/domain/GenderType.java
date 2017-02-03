@@ -1,28 +1,22 @@
 package com.tpg.smp.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static java.util.Arrays.asList;
 
-public class GenderType {
-    public static final GenderType Male = new GenderType("M", "Male");
-    public static final GenderType Female = new GenderType("F", "Female");
+public class GenderType extends WithDescription {
+    public static final GenderType Male = new GenderType("Male", "M");
 
-    private static Set<GenderType> TypedValues = new HashSet<>();
+    public static final GenderType Female = new GenderType("Female", "F");
 
-    public static Set<GenderType> TypedValues() {
-        if (!TypedValues.isEmpty()) { return TypedValues; }
+    private static final TypedValues<GenderType> TypedValues = new TypedValues<>(asList(Male, Female));
 
-        TypedValues.addAll(asList(Male, Female));
+    public static TypedValues<GenderType> TypedValues() { return TypedValues; }
 
-        return TypedValues;
-    }
-
-    private String name;
-    private String symbol;
+    private final String name;
+    private final String symbol;
 
     GenderType(String name, String symbol) {
+        super(name);
+
         this.name = name;
         this.symbol = symbol;
     }

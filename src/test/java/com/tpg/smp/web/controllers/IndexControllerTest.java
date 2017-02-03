@@ -1,6 +1,7 @@
 package com.tpg.smp.web.controllers;
 
 import com.tpg.smp.web.controllers.expectations.HandleIndexRequestExpectation;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -8,6 +9,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 public class IndexControllerTest extends BaseControllerTest {
+    @Before
+    public void setUp() {
+        super.setUp();
+    }
+
     @Test
     public void handleDefaultRequest_defaultRequest_homePageIsDisplayed() throws Exception {
         performHomeRequest("/smp/");

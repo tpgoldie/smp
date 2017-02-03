@@ -5,13 +5,13 @@ INSERT INTO SMP.T_DEPARTMENTS(id, name, dept_number) VALUES(103, 'Computer Scien
 COMMIT;
 
 
-INSERT INTO SMP.T_PERSONS(id, first_name, last_name, id_number) VALUES(101, 'Tony', 'Golding', 'ABD-123');
+INSERT INTO SMP.T_PERSONS(id, first_name, last_name, gender, id_number) VALUES(101, 'Tony', 'Golding', 'MALE', 'ABD-123');
 
-INSERT INTO SMP.T_PERSONS(id, first_name, last_name, id_number) VALUES(102, 'Michael', 'Danque', 'DFD-124');
+INSERT INTO SMP.T_PERSONS(id, first_name, last_name, gender, id_number) VALUES(102, 'Michael', 'Danque', 'MALE', 'DFD-124');
 
-INSERT INTO SMP.T_PERSONS(id, first_name, last_name, id_number) VALUES(103, 'Roger', 'Johnson', 'KOI-125');
+INSERT INTO SMP.T_PERSONS(id, first_name, last_name, gender, id_number) VALUES(103, 'Roger', 'Johnson', 'MALE', 'KOI-125');
 
-INSERT INTO SMP.T_PERSONS(id, first_name, last_name, id_number) VALUES(104, 'Vivenne', 'Westwood', 'DJK-126');
+INSERT INTO SMP.T_PERSONS(id, first_name, last_name, gender, id_number) VALUES(104, 'Vivenne', 'Westwood', 'FEMALE', 'DJK-126');
 
 COMMIT;
 

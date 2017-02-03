@@ -26,7 +26,7 @@ public class StudentRegistrationModel {
     public StudentRegistrationModel(StudentRegistrationForm form) {
         name = form.getName();
 
-        gender = findGenderTypeBySymbol(form.getGender()).get();
+        gender = findGenderTypeByName(form.getGender()).get();
 
         userModel = form.getUserModel();
 
@@ -43,8 +43,8 @@ public class StudentRegistrationModel {
         identityDetails = form.getIdentityDetails();
     }
 
-    private Optional<GenderType> findGenderTypeBySymbol(String symbol) {
-        java.util.Optional<GenderType> found = GenderType.TypedValues().stream().filter(g -> g.getSymbol().equalsIgnoreCase(symbol)).findAny();
+    private Optional<GenderType> findGenderTypeByName(String value) {
+        java.util.Optional<GenderType> found = GenderType.TypedValues().stream().filter(g -> g.getName().equalsIgnoreCase(value)).findAny();
 
         return found.isPresent() ? of(found.get()) : absent();
     }

@@ -1,8 +1,5 @@
 package com.tpg.smp.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static java.util.Arrays.asList;
 
 public class AcademicStaffMemberType extends WithDescription {
@@ -15,15 +12,10 @@ public class AcademicStaffMemberType extends WithDescription {
     public static final AcademicStaffMemberType ResearchFellow = new AcademicStaffMemberType("Research Fellow");
     public static final AcademicStaffMemberType TeachingFellow = new AcademicStaffMemberType("Teaching Fellow");
 
-    private static Set<AcademicStaffMemberType> TypedValues = new HashSet<>();
+    private static TypedValues<AcademicStaffMemberType> TypedValues = new TypedValues<>(asList(PostGraduate, Lecturer,
+            SeniorLecturer, AffiliateLecturer, AssociateProfessor, Professor, ResearchFellow, TeachingFellow));
 
-    public static Set<AcademicStaffMemberType> TypedValues() {
-        if (!TypedValues.isEmpty()) { return TypedValues; }
-
-        TypedValues.addAll(asList(PostGraduate, Lecturer, SeniorLecturer, AffiliateLecturer, AssociateProfessor, Professor, ResearchFellow, TeachingFellow));
-
-        return TypedValues;
-    }
+    public static TypedValues<AcademicStaffMemberType> TypedValues() { return TypedValues; }
 
     AcademicStaffMemberType(String description) {
         super(description);

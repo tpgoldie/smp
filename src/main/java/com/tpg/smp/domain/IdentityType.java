@@ -1,8 +1,5 @@
 package com.tpg.smp.domain;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 import static java.util.Arrays.asList;
 
 public class IdentityType extends WithDescription {
@@ -12,14 +9,10 @@ public class IdentityType extends WithDescription {
     public static final IdentityType BirthCertificate = new IdentityType("Birth Certificate");
     public static final IdentityType BritishDrivingLicence = new IdentityType("British Driving Licence");
 
-    private static final Set<IdentityType> TypedValues = new TreeSet<>();
+    private static final TypedValues<IdentityType> TypedValues = new TypedValues<>(asList(Passport, EUNationalIdentityCard,
+        ForeignNationalsIdentityCard, BritishDrivingLicence, BirthCertificate));
 
-    public static Set<IdentityType> TypedValues() {
-        if (!TypedValues.isEmpty()) { return TypedValues; }
-
-        TypedValues.addAll(asList(Passport, EUNationalIdentityCard, ForeignNationalsIdentityCard, BritishDrivingLicence, BirthCertificate));
-        return TypedValues;
-    }
+    public static TypedValues<IdentityType> TypedValues() { return TypedValues; }
 
     IdentityType(String description) {
         super(description);

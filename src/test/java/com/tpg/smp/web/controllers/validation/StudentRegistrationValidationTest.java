@@ -24,6 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
 import static com.tpg.smp.domain.Country.UnitedKingdom;
@@ -38,6 +41,8 @@ import static org.mockito.Mockito.*;
 @ContextConfiguration(classes = {ControllerTestConfig.class})
 public class StudentRegistrationValidationTest extends BaseControllerTest {
     private static final DateTime DATE_OF_BIRTH = new ToDateTimeConverter().convert("13/04/1997");
+
+    private static final List<GenderType> GENDERS = GenderType.TypedValues().stream().collect(Collectors.toList());
 
     @Autowired
     private StudentRegistrationService studentRegistrationService;
@@ -69,7 +74,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .dateOfBirth(DATE_OF_BIRTH)
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .emailAddress("abc@google.com")
             .identityDetails(emptyList())
             .build();
@@ -86,7 +92,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .dateOfBirth(DATE_OF_BIRTH)
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .identityDetails(
                 asList(
                     new StudentRegistrationFormBuilder.IdHolder(Passport, "BNM-UIO-MIDAN-29304"),
@@ -108,7 +115,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .dateOfBirth(DATE_OF_BIRTH)
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .emailAddress("abc@google.com")
             .identityDetails(
                 asList(
@@ -131,7 +139,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .dateOfBirth(DATE_OF_BIRTH)
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .emailAddress("abc@google.com")
             .identityDetails(
                 asList(
@@ -154,7 +163,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .dateOfBirth(DATE_OF_BIRTH)
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .emailAddress("abc@google.com")
             .identityDetails(
                 asList(
@@ -177,7 +187,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .dateOfBirth(DATE_OF_BIRTH)
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .emailAddress("abc@google.com")
             .identityDetails(
                 asList(
@@ -197,7 +208,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .gender(Male)
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .emailAddress("abc@google.com")
             .identityDetails(
                 asList(
@@ -217,7 +229,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .userModel(userModel)
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .identityDetails(
                 asList(
                     new StudentRegistrationFormBuilder.IdHolder(Passport, "BNM-UIO-MIDAN-29304"),
@@ -247,7 +260,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                 )
             ).build();
 
-        invalidateMissingDetail(registrationForm, "contactDetails.contactNumbers", "contact.number.missing");
+        invalidateMissingDetail(registrationForm, "contactDetails.mobileNumber", "contact.number.missing");
     }
 
     @Test
@@ -260,7 +273,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
             .emailAddress("abc@google.com")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .identityDetails(
                 asList(
                     new StudentRegistrationFormBuilder.IdHolder(Passport, "BNM-UIO-MIDAN-29304"),
@@ -281,7 +295,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
             .emailAddress("abc@google.com")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .identityDetails(
                 asList(
                     new StudentRegistrationFormBuilder.IdHolder(Passport, "BNM-UIO-MIDAN-29304"),
@@ -302,7 +317,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "CR0 7DD")
             .emailAddress("abc@google.com")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .identityDetails(
                 asList(
                     new StudentRegistrationFormBuilder.IdHolder(Passport, "BNM-UIO-MIDAN-29304"),
@@ -323,7 +339,8 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .dateOfRegistration(DATE_OF_REGISTRATION)
             .address("123 Surrey Street", "Croydon", "Surrey", UnitedKingdom, "")
             .emailAddress("abc@google.com")
-            .contactDetails("09632127748", "020864594983")
+            .telephoneNumber("020864594983")
+            .mobileNumber("09632127748")
             .identityDetails(
                 asList(
                     new StudentRegistrationFormBuilder.IdHolder(Passport, "BNM-UIO-MIDAN-29304"),
@@ -339,7 +356,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
 
         when(informationRetrievalService.loadCountries()).thenReturn(countriesService.findAll());
 
-        when(informationRetrievalService.loadGenders()).thenReturn(GenderType.TypedValues());
+        when(informationRetrievalService.loadGenders()).thenReturn(GENDERS);
 
         ResultActions resultsAction = new PerformStudentRegistration(mockMvc, jackson2HttpMessageConverter, userModel, registrationForm).resultActions();
 
@@ -347,7 +364,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             resultsAction,
             new HandleStudentRegistrationRequestFailedExpectation.RegistrationFailedMessageExpectedAttribute("Your student registration has failed."),
             new HandleStudentRegistrationRequestExpectation.StudentRegistrationModelCountriesExpectedAttribute(countriesService.findAll()),
-            new HandleStudentRegistrationRequestExpectation.StudentRegistrationModelGendersExpectedAttribute(GenderType.TypedValues()),
+            new HandleStudentRegistrationRequestExpectation.StudentRegistrationModelGendersExpectedAttribute(GENDERS),
             absent(),
             of(new HandleStudentRegistrationRequestFailedExpectation.StudentRegistrationFormExpectedErrorAttribute(resultsAction,
                     fieldName, errorMessageKey)),

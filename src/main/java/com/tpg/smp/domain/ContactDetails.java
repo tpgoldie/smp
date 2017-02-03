@@ -8,17 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactDetails implements Serializable {
+    private String telephoneNumber;
+
     @NotEmpty(message = "{contactnumber.missing}")
-    private List<String> contactNumbers = new ArrayList<>();
+    private String mobileNumber;
 
     @NotEmpty(message = "{main.emailaddress.missing}")
     private String mainEmailAddress;
-
-    public String getContactNumber(int index) { return contactNumbers.get(index); }
-
-    public void setContactNumber(int index, String number) { contactNumbers.set(index, number); }
-
-    public void addContactNumber(String number) { contactNumbers.add(number); }
 
     public String getMainEmailAddress() {
         return mainEmailAddress;
@@ -26,14 +22,6 @@ public class ContactDetails implements Serializable {
 
     public void setMainEmailAddress(String mainEmailAddress) {
         this.mainEmailAddress = mainEmailAddress;
-    }
-
-    public List<String> getContactNumbers() {
-        return contactNumbers;
-    }
-
-    public void setContactNumbers(List<String> contactNumbers) {
-        this.contactNumbers = contactNumbers;
     }
 
     @Override
@@ -44,8 +32,25 @@ public class ContactDetails implements Serializable {
         ContactDetails that = (ContactDetails) obj;
 
         return new EqualsBuilder()
-            .append(that.contactNumbers, this.contactNumbers)
+            .append(that.telephoneNumber, this.telephoneNumber)
+            .append(that.mobileNumber, this.mobileNumber)
             .append(that.mainEmailAddress, this.mainEmailAddress)
             .isEquals();
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 }

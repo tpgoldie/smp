@@ -20,6 +20,5 @@ public abstract class AssertPerson<T extends Person> {
         assertThat(actual, hasProperty("username", is(userEntity.getUsername())));
         assertThat(actual, hasProperty("firstName", is(personEntity.getName().getFirstName())));
         assertThat(actual, hasProperty("lastName", is(personEntity.getName().getLastName())));
-        assertThat(actual, hasProperty("registrationNumber", is(personEntity.getIdentificationNumber())));
     }
 }

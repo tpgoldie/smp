@@ -62,16 +62,17 @@ public class StudentRegistrationFormBuilder {
         return this;
     }
 
-    public StudentRegistrationFormBuilder contactDetails(String... contactNumbers) {
-        for (String contactNumber : contactNumbers) {
-            this.contactDetails.addContactNumber(contactNumber);
-        }
-
+    public StudentRegistrationFormBuilder dateOfRegistration(List<IdentityDetails> identityDetails) {
+        this.identityDetails = identityDetails;
         return this;
     }
 
-    public StudentRegistrationFormBuilder dateOfRegistration(List<IdentityDetails> identityDetails) {
-        this.identityDetails = identityDetails;
+    public StudentRegistrationFormBuilder mobileNumber(String value) {
+        this.contactDetails.setMobileNumber(value);
+        return this;
+    }
+    public StudentRegistrationFormBuilder telephoneNumber(String value) {
+        this.contactDetails.setTelephoneNumber(value);
         return this;
     }
 
@@ -99,7 +100,7 @@ public class StudentRegistrationFormBuilder {
 
         form.setName(name);
 
-        form.setGender(gender.getSymbol());
+        form.setGender(gender.getDescription());
 
         form.setAddress(address);
 

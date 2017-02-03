@@ -73,6 +73,8 @@ ext {
     assertjVersion = '1.0.0m1'
 
     h2Version = '1.4.193'
+
+    wiremockVersion = '2.5.1'
 }
 
 gretty {
@@ -124,6 +126,8 @@ dependencies {
     testCompile group: 'org.seleniumhq.selenium', name: 'selenium-htmlunit-driver', version: seleniumHtmlUnitDriverVersion
 
     testCompile group: 'com.h2database', name: 'h2', version: h2Version
+
+    testCompile group: 'com.github.tomakehurst', name: 'wiremock', version: wiremockVersion
 }
 
 intTest {
