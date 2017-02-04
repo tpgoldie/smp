@@ -69,7 +69,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
             .contactDetails("09632127748", "020864594983")
             .emailAddress("abc@google.com")
             .identityDetails(emptyList())
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "identityDetails", "identity.details.missing");
@@ -90,7 +90,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "contactDetails.mainEmailAddress", "main.emailaddress.missing");
@@ -114,7 +114,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "userModel.username", "usermodel.invalid");
@@ -138,7 +138,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "userModel.username", "usermodel.invalid");
@@ -162,7 +162,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "userModel.secureToken", "usermodel.invalid");
@@ -186,7 +186,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm,  "userModel.secureToken", "usermodel.invalid");
@@ -207,7 +207,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "dateOfBirth", "dateofbirth.missing");
@@ -227,7 +227,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         registrationForm.getContactDetails().setMainEmailAddress("ajkl4343");
@@ -250,7 +250,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "contactDetails.contactNumbers", "contact.number.missing");
@@ -272,7 +272,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "name.firstName", "firstname.missing");
@@ -294,7 +294,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "name.firstName", "firstname.max.size");
@@ -316,7 +316,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "name.lastName", "lastname.missing");
@@ -338,7 +338,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber())
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber())
             .build();
 
         invalidateMissingDetail(registrationForm, "address.postCode", "postcode.missing");
@@ -367,7 +367,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
 
     @Test
     public void handleNotFoundCourse_notFoundCourse_notFoundCourseInvalidated() throws Exception {
-        String courseReferenceNumber = courseData.getDomainModel().getReferenceNumber();
+        String courseReferenceNumber = courseData.getDomainModel().getCourseNumber();
 
         StudentRegistrationForm registrationForm = formBuilder
             .name(studentData.getDomainModel().getFirstName(), studentData.getDomainModel().getLastName())
@@ -396,7 +396,7 @@ public class StudentRegistrationValidationTest extends BaseControllerTest {
     private void invalidateMissingDetail(StudentRegistrationForm registrationForm, String fieldName, String errorMessageKey) throws Exception {
         doInvalidateMissingDetail(registrationForm, fieldName, errorMessageKey);
 
-        verify(coursesQueryService, never()).findCourseByReferenceNumber(courseData.getDomainModel().getReferenceNumber());
+        verify(coursesQueryService, never()).findCourseByReferenceNumber(courseData.getDomainModel().getCourseNumber());
     }
 
     private void doInvalidateMissingDetail(StudentRegistrationForm registrationForm, String fieldName, String errorMessageKey) throws Exception {

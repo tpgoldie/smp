@@ -5,7 +5,7 @@ public class Course {
 
     private String description;
 
-    private String referenceNumber;
+    private String courseNumber;
 
     private Department department;
 
@@ -17,12 +17,12 @@ public class Course {
         this.name = name;
     }
 
-    public String getReferenceNumber() {
-        return referenceNumber;
+    public String getCourseNumber() {
+        return courseNumber;
     }
 
-    public void setReferenceNumber(String referenceNumber) {
-        this.referenceNumber = referenceNumber;
+    public void setCourseNumber(String courseNumber) {
+        this.courseNumber = courseNumber;
     }
 
     public String getDescription() {

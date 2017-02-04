@@ -68,7 +68,7 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
                     new StudentRegistrationFormBuilder.IdHolder(BritishDrivingLicence, "HJK-TIO-I2347289")
                 )
             )
-            .courseReferenceNumber(courseData.getDomainModel().getReferenceNumber());
+            .courseReferenceNumber(courseData.getDomainModel().getCourseNumber());
     }
 
     @Test
@@ -103,7 +103,7 @@ public class StudentRegistrationControllerTest extends BaseControllerTest {
 
         verify(authenticationService).authenticateUser(userModel);
 
-        verify(coursesQueryService).findCourseByReferenceNumber(course.getReferenceNumber());
+        verify(coursesQueryService).findCourseByReferenceNumber(course.getCourseNumber());
     }
 
     @Test

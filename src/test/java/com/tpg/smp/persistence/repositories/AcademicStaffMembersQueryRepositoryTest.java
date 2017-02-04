@@ -11,6 +11,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -64,7 +65,15 @@ public class AcademicStaffMembersQueryRepositoryTest {
     }
 
     @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:sql/maths-dept-data.sql")
+    @SqlGroup(value = {
+            @Sql(
+                scripts = {"classpath:sql/maths-dept-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
+            ),
+
+            @Sql(
+                scripts = {"classpath:sql/clear.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
+            )
+    })
     public void findByDepartment_department_findAllMembersOfTheGivenDepartmentMultipleResults() {
         List<AcademicStaffMemberEntity> actualList = academicStaffMembersQueryRepository.findByDepartmentNameIgnoreCase("Mathematics");
         assertThat(actualList.size(), is(2));

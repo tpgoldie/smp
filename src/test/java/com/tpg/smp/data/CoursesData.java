@@ -18,7 +18,7 @@ public class CoursesData extends TestData<CourseData> {
 
         course.setDepartment(department);
         course.setName(name);
-        course.setReferenceNumber(referenceNo);
+        course.setCourseNumber(referenceNo);
 
         return new CourseData(course);
     }
