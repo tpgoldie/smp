@@ -38,6 +38,7 @@ repositories {
 
 testSets {
     intTest { dirName = 'integration-tests' }
+
     accTest { dirName = 'acceptance-tests' }
 }
 
